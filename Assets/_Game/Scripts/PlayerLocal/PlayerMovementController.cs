@@ -126,5 +126,23 @@ public class PlayerMovementController : MonoBehaviour
         _playerMovementModel.PlayerVelosity.Value = _rb.linearVelocity;
         _playerMovementModel.PlayerRotationY.Value = _rb.rotation.eulerAngles.y;
         _playerMovementModel.HandRotationX.Value = _cerrentHandRotateX;
+        _playerMovementModel.Speed.Value = GetSpeed();
+        _playerMovementModel.IsGrounded.Value = IsGrounded;
+    }
+
+    private float GetSpeed()
+    {
+        if (_rb.linearVelocity.magnitude < 0.2)
+        {
+            return 0;
+        }
+        else
+        {
+            if (Vector3.Dot(_rb.linearVelocity.normalized, transform.forward) < 0)
+            {
+                return _rb.linearVelocity.magnitude * -1;
+            }
+        }
+        return _rb.linearVelocity.magnitude;
     }
 }

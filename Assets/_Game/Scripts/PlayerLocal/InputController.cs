@@ -10,6 +10,7 @@ public class InputController : MonoBehaviour
     public float MouseAxisX => Input.GetAxis("Mouse X");
     public bool JumpKeyPressed => Input.GetKeyDown(KeyCode.Space);
     public bool MouseButtonDown0 => Input.GetMouseButtonDown(0);
+    public bool SittingKeyPressed => Input.GetKeyDown(KeyCode.LeftControl);
 
 
     private void Awake()
