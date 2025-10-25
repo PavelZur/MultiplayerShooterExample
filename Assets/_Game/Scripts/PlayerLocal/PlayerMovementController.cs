@@ -62,6 +62,7 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         RotateHand();
+        _playerMovementModel.IsSitting.Value = InputController.Instance.SittingKeyPressed;
     }
 
     private void FixedUpdate()
@@ -108,7 +109,6 @@ public class PlayerMovementController : MonoBehaviour
         if (!_isJumping && IsGrounded)
         {
             _currentJumpMomentum = 0;
-            Debug.Log(_currentJumpMomentum);
             return;
         }
 
@@ -144,5 +144,5 @@ public class PlayerMovementController : MonoBehaviour
             }
         }
         return _rb.linearVelocity.magnitude;
-    }
+    }   
 }
