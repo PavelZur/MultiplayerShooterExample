@@ -14,5 +14,5 @@ public class PlayerMovementModel : MonoBehaviour
     public ReactiveProperty<float> HandRotationX = new();
     public ReactiveProperty<float> Speed = new();
     public ReactiveProperty<bool> IsGrounded = new(true);
-    public ReactiveProperty<bool> IsSitting = new(true);
+    public ReactiveProperty<bool> IsSitting = new(false);
 }

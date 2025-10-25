@@ -7,9 +7,6 @@ public class PlayerMovementSyncer : MonoBehaviour
 {
     [SerializeField] private PlayerMovementModel _movementModel;
 
-
-    
-
     private const string KEY_MOVE = "move";
     private readonly Dictionary<string, object> _movementInfoDictionaty = new()
     {
@@ -21,6 +18,10 @@ public class PlayerMovementSyncer : MonoBehaviour
         { "vz", 0f },
         { "ry", 0f },
         { "rx", 0f },
+
+        { "ground", 0f },
+        { "anspeed", 0f },
+        { "sit", 0f },
 
     };
 
@@ -55,7 +56,11 @@ public class PlayerMovementSyncer : MonoBehaviour
         _movementInfoDictionaty["ry"] = _movementModel.PlayerRotationY.Value;
         _movementInfoDictionaty["rx"] = _movementModel.HandRotationX.Value;
 
-      //  Debug.Log("vy    " + _movementInfoDictionaty["vy"]);
+        _movementInfoDictionaty["ground"] = _movementModel.IsGrounded.Value == true ? 1 : 0;
+        _movementInfoDictionaty["sit"] = _movementModel.IsSitting.Value == true ? 1 : 0;
+        _movementInfoDictionaty["anspeed"] = _movementModel.Speed.Value;
+
+        //  Debug.Log("vy    " + _movementInfoDictionaty["vy"]);
 
         MultiplayerManager.Instance.SendMessage(KEY_MOVE, _movementInfoDictionaty);
     }

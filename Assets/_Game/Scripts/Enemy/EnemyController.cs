@@ -72,6 +72,15 @@ public class EnemyController : MonoBehaviour
                 case "rx":
                     _movementModel.HandRotationX.Value = (float)dataChanges.Value;
                     break;
+                case "ground":
+                    _movementModel.IsGrounded.Value = (float)dataChanges.Value == 1 ? true : false;
+                    break;
+                case "anspeed":
+                    _movementModel.Speed.Value = (float)dataChanges.Value;
+                    break;
+                case "sit":
+                    _movementModel.IsSitting.Value = (float)dataChanges.Value == 1 ? true : false;
+                    break;
 
                 default:
                     Debug.LogWarning($"{name} : не обрабатывается поле {dataChanges.Field}");

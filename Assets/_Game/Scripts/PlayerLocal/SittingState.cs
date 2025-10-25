@@ -19,8 +19,8 @@ public class SittingState : MonoBehaviour
 
     private void Start()
     {
-        _playerMovementModel.IsSitting.Where(_ => _ == true).Subscribe(_ => Sitting()).AddTo(this);
-        _playerMovementModel.IsSitting.Where(_ => _ == false).Subscribe(_ => GetUp()).AddTo(this);
+        _playerMovementModel.IsSitting.Skip(1).Where(_ => _ == true).Subscribe(_ => Sitting()).AddTo(this);
+        _playerMovementModel.IsSitting.Skip(1).Where(_ => _ == false).Subscribe(_ => GetUp()).AddTo(this);
     }
 
     private void Sitting()
