@@ -25,14 +25,12 @@ public class SittingState : MonoBehaviour
 
     private void Sitting()
     {
-        Debug.Log("Sitting()");
         _scaleTransform.localScale = new (_scaleTransform.localScale.x, _scaleTransform.localScale.y, _scaleTransform.localScale.z * _sittingScaleFactor);
         _capsuleCollider.height *= _sittingScaleFactor;
     }
 
     private void GetUp()
     {
-        Debug.Log("GetUp()");
         _scaleTransform.localScale = new(_scaleTransform.localScale.x, _scaleTransform.localScale.y, _standartScaleZ);
         _capsuleCollider.height = _standartHeight;
     }

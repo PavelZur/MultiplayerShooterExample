@@ -1,16 +1,23 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public async UniTask BulletFlight(Vector3 start, Vector3 target, float speed)
     {
-        
+        transform.position = start;
+
+        while (transform.position != target)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            await UniTask.Yield();
+        }
+
+        HideBullet();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HideBullet()
     {
-        
+        gameObject.SetActive(false);
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1945688748137060915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7082600677811214530}
+  - {fileID: 3883153328891074108}
   m_Father: {fileID: 1595673057341978886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508305654163957826
@@ -41,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1595673057341978886}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +80,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2094617431624664790}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BodyParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +113,7 @@ GameObject:
   - component: {fileID: 6081692084105522359}
   - component: {fileID: 7244360578170312063}
   - component: {fileID: 3206704283869995506}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +202,7 @@ GameObject:
   - component: {fileID: 5765519163869751675}
   - component: {fileID: 4406118387008944270}
   - component: {fileID: 4008799505307847049}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +291,7 @@ GameObject:
   - component: {fileID: 4926275682632161579}
   - component: {fileID: 3283705761269221646}
   - component: {fileID: 4293310106957409035}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +362,7 @@ GameObject:
   - component: {fileID: 3595885186532631234}
   - component: {fileID: 3411913238615134854}
   - component: {fileID: 4095885522506602364}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +451,7 @@ GameObject:
   - component: {fileID: 1944881225337399156}
   - component: {fileID: 7231643250999420844}
   - component: {fileID: 8770016214745357820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Circle001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +540,7 @@ GameObject:
   - component: {fileID: 5533475554907402082}
   - component: {fileID: 8116164116701611361}
   - component: {fileID: 311517236729336784}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,7 +627,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7082600677811214530}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun_Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +663,7 @@ GameObject:
   - component: {fileID: 8861943022011717912}
   - component: {fileID: 5410035595465547666}
   - component: {fileID: 502003250070790176}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 390449808098257104}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +784,7 @@ GameObject:
   - component: {fileID: 7808295652688295952}
   - component: {fileID: 4010984034811402067}
   - component: {fileID: 9156976009809350292}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Box027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -872,7 +873,7 @@ GameObject:
   - component: {fileID: 4072517340462356189}
   - component: {fileID: 3857478444893008119}
   - component: {fileID: 7394354317996526186}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -950,6 +951,52 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4923518912862077669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4855687636345227441}
+  - component: {fileID: 5286373946182727206}
+  m_Layer: 6
+  m_Name: ShootingCotroller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4855687636345227441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4923518912862077669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8517636300726114092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5286373946182727206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4923518912862077669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90eb73ebac300f4491b73a56e696b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyShootingController
+  _bulletPref: {fileID: 3883296779815173590, guid: 59a974148c225fe429ae0c4e199d4998, type: 3}
+  _spawnPoint: {fileID: 3883153328891074108}
 --- !u!1 &5073295702594756171
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +1008,7 @@ GameObject:
   - component: {fileID: 8423583469557650444}
   - component: {fileID: 4863212217988914314}
   - component: {fileID: 2844839889326933512}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Object005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1050,7 +1097,7 @@ GameObject:
   - component: {fileID: 4275210718299110352}
   - component: {fileID: 55533750534176303}
   - component: {fileID: 4550697381299744315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: gun_e03_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1139,7 +1186,7 @@ GameObject:
   - component: {fileID: 9072988969635150661}
   - component: {fileID: 8956505368033084937}
   - component: {fileID: 9103146762898031411}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1228,7 +1275,7 @@ GameObject:
   - component: {fileID: 1862368956377865599}
   - component: {fileID: 71859922522175975}
   - component: {fileID: 8728898432883159758}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Box028
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,7 +1364,7 @@ GameObject:
   - component: {fileID: 5921077989623234578}
   - component: {fileID: 3065345800534644477}
   - component: {fileID: 279566032058573825}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1404,7 +1451,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8032570524346806690}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1440,7 +1487,7 @@ GameObject:
   - component: {fileID: 6820344107191686846}
   - component: {fileID: 7491449700498443229}
   - component: {fileID: 1919335106968206045}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1529,7 +1576,7 @@ GameObject:
   - component: {fileID: 5708999860940754865}
   - component: {fileID: 111349864826693518}
   - component: {fileID: 2508643042730457008}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Foot_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1619,7 +1666,7 @@ GameObject:
   - component: {fileID: 629237578313316339}
   - component: {fileID: 5910259527020506225}
   - component: {fileID: 3079683894633298135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Object004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1706,7 +1753,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3279852580143140601}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1744,7 +1791,7 @@ GameObject:
   - component: {fileID: 2703485875578298584}
   - component: {fileID: 5858623346123257506}
   - component: {fileID: 7607801211875191526}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: EnemyRemote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1766,6 +1813,7 @@ Transform:
   m_Children:
   - {fileID: 390449808098257104}
   - {fileID: 3279852580143140601}
+  - {fileID: 4855687636345227441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2556922404261170682
@@ -1911,7 +1959,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7053944825782515181}
   - component: {fileID: 8354149414037731157}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HeadTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1946,6 +1994,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _transformFoot: {fileID: 1595673057341978886}
+--- !u!1 &8026089417010920421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3883153328891074108}
+  m_Layer: 6
+  m_Name: SpawnBulletTranform
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3883153328891074108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8026089417010920421}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.006, y: -1.012, z: 0.094}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1945688748137060915}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &8045987004573896204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,7 +2034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7819360364482304646}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1991,7 +2070,7 @@ GameObject:
   - component: {fileID: 4808892499421795924}
   - component: {fileID: 3140536794566816652}
   - component: {fileID: 6396655849032117064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2080,7 +2159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8999037044616428421}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NewCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2115,7 +2194,7 @@ GameObject:
   - component: {fileID: 186549703516498461}
   - component: {fileID: 8460939298038683269}
   - component: {fileID: 4885653426546149250}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Foot_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}

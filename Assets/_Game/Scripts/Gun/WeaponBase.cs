@@ -1,49 +1,59 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Bullet _prefab;
+    [field: SerializeField] public GunAnimation GunAnimation { get; private set; }
+    [field: SerializeField] public Transform BulletStartTranform { get; private set; }
+    [field: SerializeField] public Bullet PrefabBullet { get; private set; }
+    [field: SerializeField] public int Damage { get; private set; }
+    [field: SerializeField] public int MaxAmmo { get; private set; } = 30;
+    [field: SerializeField] public int SizeForCartridges { get; private set; } = 12;
+    [field: SerializeField] public float TimeToReloading { get; private set; } = 1;
+    [field: SerializeField] public float Range { get; private set; }
+    [field: SerializeField] public float BulletSpeed { get; private set; }
+    [field: SerializeField] public bool IsAutomatic { get; private set; }
 
-    protected int MaxAmmo = 30;
-    protected int SizeForCartridges = 12;
     protected int CurrentAmmo;
     protected int CurrentAmmoInCartridg;
-    protected float Range;
-    protected float BulletSpeed;
-    protected float Spread;
-    protected bool IsAutomatic;
-    protected int Damage;
-    protected float TimeToReloading;
 
     public bool IsReloadingProcces { get; protected set; }
+
+    public Action<int, int> AmmoUpdateCountEvent;
+    public Action ReloadGun;
 
     protected virtual void Start()
     {
         CurrentAmmo = MaxAmmo;
         CurrentAmmoInCartridg = SizeForCartridges;
+        CurrentAmmo -= CurrentAmmoInCartridg;
+        AmmoUpdateCountEvent?.Invoke(CurrentAmmoInCartridg, CurrentAmmo);
     }
 
-    public virtual void Shoot()
+    public virtual bool TryShoot()
     {
-        if (IsReloadingProcces ) return;
+        if (IsReloadingProcces) return false;
 
         if (TrySpendAmmo())
         {
-            _animator.Play("Shoot");
-
+            return true;
         }
-        
 
+        return false;
     }
 
     private protected virtual bool TrySpendAmmo()
     {
-        if (CurrentAmmoInCartridg <= 0) return false;
+        if (CurrentAmmoInCartridg <= 0)
+        {
+            Reload().Forget();
+            return false;
+        }
 
         CurrentAmmoInCartridg--;
-        CurrentAmmo--;
+
+        AmmoUpdateCountEvent?.Invoke(CurrentAmmoInCartridg, CurrentAmmo);
 
         if (CurrentAmmoInCartridg == 0)
         {
@@ -52,9 +62,13 @@ public abstract class WeaponBase : MonoBehaviour
 
         return true;
     }
-
-    public async virtual UniTaskVoid Reload()
+    
+    protected async virtual UniTaskVoid Reload()
     {
+        if (IsReloadingProcces) return;
+
+        // перезарядку пока не передаю на сервер, надо както красиво обыграть у енеми то а от сюда вынести.
+        ReloadGun?.Invoke();
         IsReloadingProcces = true;
         int neededAmmo = SizeForCartridges - CurrentAmmoInCartridg;
 
@@ -71,6 +85,7 @@ public abstract class WeaponBase : MonoBehaviour
             CurrentAmmo = 0;
         }
 
+        AmmoUpdateCountEvent?.Invoke(CurrentAmmoInCartridg, CurrentAmmo);
         IsReloadingProcces = false;
     }
 

@@ -82,12 +82,16 @@ public class PlayerMovementController : MonoBehaviour
 
     private void RotateY()
     {
+        if (Cursor.lockState == CursorLockMode.None) return;
+
         _rb.angularVelocity = new(0f, _rotateY * _mouseSensitivity, 0f);
         _rotateY = 0;
     }
 
     private void RotateHand()
     {
+        if (Cursor.lockState == CursorLockMode.None) return;
+
         float x = _mouseY * -_mouseSensitivity;
         _cerrentHandRotateX = Mathf.Clamp(_cerrentHandRotateX + x, _minHandAngle, _maxHandAngle);
         _handTranform.localEulerAngles = new(_cerrentHandRotateX, 0, 0);

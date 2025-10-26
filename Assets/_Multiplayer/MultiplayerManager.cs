@@ -2,15 +2,19 @@ using Colyseus;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {  
     public float RTT { get; private set; }
-   
+    public float PlayerID { get; private set; }
+
     public Action<Player> OnCreatePlayerLocal;
     public Action<Player> OnCreateEnemy;
     public Action<Player> OnRemoveEnemy;
+
+    public Action<ShootingInfo> ShootingEnemyEvent;
 
     private ColyseusRoom<State> _room;
     private long _pingStartTime;
@@ -24,8 +28,6 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         Initialized().Forget();
     }
 
-    //тут хотелосьс бы узнать о порядке срабатывания евентов у room, какие могут быть подводные камни, просто мы как ждем пока нам придет экземпляр ,
-    //и только потом подписываемся, может ли произойти такое что евент OnStateChange мы пропустим.. не совсем понял как он работает. и евент OnJoint что делает.
     private async UniTaskVoid Initialized()
     {
         await UniTask.WaitUntil(() => Instance != null);
@@ -34,6 +36,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         _room = await Instance.client.JoinOrCreate<State>("state_handler");
 
         _room.OnMessage<string>("pong", OnPongReceived);
+        _room.OnMessage<string>("Shoot", OnShootingEnemy);
 
         _room.OnStateChange += OnChangeRoomHandler;
         _room.OnError += OnErrorRoomHandler;
@@ -49,7 +52,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         {
             var player = state.players[_room.SessionId];
             OnCreatePlayerLocal?.Invoke(player);
-            
+            PlayerID = player.__refId;
+
             state.players.ForEach(ForEachEnemysCreate);
 
             state.players.OnAdd += ForEachEnemysCreate;
@@ -79,6 +83,11 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         _room.Send(key,data);
     }
 
+    public void SendMessage(string key, string data)
+    {
+        _room.Send(key, data);
+    }
+
     private void SendPing()
     {
         if (_room != null)
@@ -92,6 +101,14 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         long pongTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         RTT = pongTime - _pingStartTime;
+    }
+
+    private void OnShootingEnemy(string data)
+    {
+        if (string.IsNullOrEmpty(data)) return;
+
+        ShootingInfo info = JsonUtility.FromJson<ShootingInfo>(data);
+        ShootingEnemyEvent?.Invoke(info);
     }
 
     protected override void OnDestroy()

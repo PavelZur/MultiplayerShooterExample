@@ -5,10 +5,10 @@ using UniRx;
 public class PlayerAnimatorController : MonoBehaviour
 {
     [SerializeField] private PlayerMovementModel _movementModel;
-    private Animator _playerAnimator;
+    private Animator _footAnimator;
     private void Start()
     {
-        _playerAnimator = GetComponent<Animator>();
+        _footAnimator = GetComponent<Animator>();
 
         _movementModel.IsGrounded.Subscribe(_ => SetGroundAnimator(_)).AddTo(this);
         _movementModel.Speed.Subscribe(_ => SetSpeedAnimatior(_)).AddTo(this);
@@ -17,11 +17,11 @@ public class PlayerAnimatorController : MonoBehaviour
     private void SetSpeedAnimatior(float speed)
     {
         speed = Mathf.Clamp(speed, -1, 1);
-        _playerAnimator.SetFloat("Speed", speed);
+        _footAnimator.SetFloat("Speed", speed);
     }
 
     private void SetGroundAnimator(bool isGrounded)
     {
-        _playerAnimator.SetBool("Grounded", isGrounded);
+        _footAnimator.SetBool("Grounded", isGrounded);
     }
 }
