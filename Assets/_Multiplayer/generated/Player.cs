@@ -40,5 +40,9 @@ public partial class Player : Schema {
 
 	[Type(10, "number")]
 	public float anspeed = default(float);
+
+	[Type(11, "number")]
+
+	public float health = default(float);
 }
 

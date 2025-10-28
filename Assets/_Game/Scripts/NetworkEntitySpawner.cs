@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class NetworkEntitySpawner : MonoBehaviour
 {
-    [SerializeField] private PlayerMovementController _characterPrefab;
+    [SerializeField] private PlayerLocal _characterPrefab;
     [SerializeField] private Enemy _enemyPrefab;
 
-    private Dictionary<int,Enemy> _playersOnRoom = new();
+    private Dictionary<string,Enemy> _playersOnRoom = new();
 
     void Start()
     {
@@ -15,26 +15,27 @@ public class NetworkEntitySpawner : MonoBehaviour
         MultiplayerManager.Instance.OnRemoveEnemy += RemoveEnemy;
     }
 
-    private void CreateEnemy(Player enemyDataRemote)
+    private void CreateEnemy(Player enemyDataRemote,string sessionId)
     {
         Vector3 position = new(enemyDataRemote.px, enemyDataRemote.py, enemyDataRemote.pz);
         Enemy enemy = Instantiate(_enemyPrefab, position, Quaternion.identity);
-        enemy.Init(enemyDataRemote);
-        _playersOnRoom.Add(enemyDataRemote.__refId, enemy);
+        enemy.Init(enemyDataRemote, sessionId);
+        _playersOnRoom.Add(sessionId, enemy);
     }
 
     private void CreatePlayer(Player playerDataRemote)
     {
         Vector3 position = new(playerDataRemote.px, playerDataRemote.py, playerDataRemote.pz);
-        PlayerMovementController playerCharacter = Instantiate(_characterPrefab, position, Quaternion.identity);
+        PlayerLocal playerLocal = Instantiate(_characterPrefab, position, Quaternion.identity);
+        playerLocal.Init(playerDataRemote);
     }
 
-    private void RemoveEnemy(Player player)
+    private void RemoveEnemy(Player player, string sessionId)
     {
-        if (!_playersOnRoom.ContainsKey(player.__refId)) return;
+        if (!_playersOnRoom.ContainsKey(sessionId)) return;
 
-        _playersOnRoom[player.__refId].Kill();
-        _playersOnRoom.Remove(player.__refId);
+        _playersOnRoom[sessionId].Kill();
+        _playersOnRoom.Remove(sessionId);
     }   
 
     private void OnDestroy()

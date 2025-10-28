@@ -11,8 +11,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     public float PlayerID { get; private set; }
 
     public Action<Player> OnCreatePlayerLocal;
-    public Action<Player> OnCreateEnemy;
-    public Action<Player> OnRemoveEnemy;
+    public Action<Player, string> OnCreateEnemy;
+    public Action<Player, string> OnRemoveEnemy;
 
     public Action<ShootingInfo> OnShootingEnemyEvent;
     public Action OnEnemyGunReloadEvent;
@@ -67,7 +67,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         if (key == _room.SessionId) return;
 
-        OnCreateEnemy?.Invoke(enemy);
+        OnCreateEnemy?.Invoke(enemy, key);
     }
 
     private void OnErrorRoomHandler(int code, string message)
@@ -77,7 +77,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
     private void RemoveEnemy(string key, Player player)
     {
-        OnRemoveEnemy?.Invoke(player);
+        OnRemoveEnemy?.Invoke(player, key);
     }
 
     public void SendMessageColyseus(string key , Dictionary<string , object> data)

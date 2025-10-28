@@ -35,11 +35,11 @@ public class ShootingController : MonoBehaviour
 
         Vector3 bulletTarget = _pistol.BulletStartTranform.position + (ray.direction * 100f);
 
-        Enemy enemy = null;
+        Health health = null;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100, _layerMask))
         {
-            hit.collider.TryGetComponent(out enemy);
+            hit.collider.TryGetComponent(out health);
             bulletTarget = hit.point;
         }
 
@@ -51,9 +51,9 @@ public class ShootingController : MonoBehaviour
 
         await newBullet.BulletFlight(_pistol.BulletStartTranform.position, bulletTarget, _pistol.BulletSpeed);
 
-        if (enemy != null)
+        if (health != null)
         {
-            enemy.TakeDamage();
+            health.RemoveHealth(_pistol.Damage);
         }
     }
 

@@ -33,9 +33,7 @@ public class EnemyController : MonoBehaviour
         _receiveTimeInteval.RemoveAt(0);
     }
 
-    // тут вообще хотелосьбы какуюто надстройку что бы расрепределить сначала тип изменений по моделям или сервисам которые уже ти изменения будут обрабатывать,
-    // я незнаю как это будет в дальнешем, пока пускай так, но очевидно что если у нас будет 40 полей зменений то
-    // тут обрабатываться напрямую конечно не должны
+
     public void OnChangeHandler(List<DataChange> changes)
     {
         SaveReceive();
@@ -60,7 +58,7 @@ public class EnemyController : MonoBehaviour
                     newVelosity.x = (float)dataChanges.Value;
                     break;
                 case "vy":
-                      Debug.Log(" Пришло - vy  = " + (float)dataChanges.Value);
+                     // Debug.Log(" Пришло - vy  = " + (float)dataChanges.Value);
                     newVelosity.y = (float)dataChanges.Value;
                     break;
                 case "vz":

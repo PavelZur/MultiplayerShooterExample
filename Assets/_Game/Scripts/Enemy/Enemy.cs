@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private Health _health;
     [SerializeField] private EnemyController _controller;
-    private Player _player;
 
-    public void Init(Player player)
+    private Player _player;
+    public string SessionId { get; private set; }
+
+    public void Init(Player player,string sessionId)
     {
+        SessionId = sessionId;
         _player = player;
+        _health.CerrentHelth.Value = (int)player.health;
         _player.OnChange += _controller.OnChangeHandler;
     }
 
@@ -16,10 +21,5 @@ public class Enemy : MonoBehaviour
         //пока тут реализация супер простая , смерти как таковой нет , тупо дестрой.
         _player.OnChange -= _controller.OnChangeHandler;
         Destroy(gameObject);
-    }
-
-    public void TakeDamage()
-    {
-        Debug.Log($"TakeDamage  {_player.__refId}" );
     }
 }
