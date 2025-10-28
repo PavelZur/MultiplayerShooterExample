@@ -14,7 +14,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     public Action<Player> OnCreateEnemy;
     public Action<Player> OnRemoveEnemy;
 
-    public Action<ShootingInfo> ShootingEnemyEvent;
+    public Action<ShootingInfo> OnShootingEnemyEvent;
+    public Action OnEnemyGunReloadEvent;
 
     private ColyseusRoom<State> _room;
     private long _pingStartTime;
@@ -37,6 +38,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
         _room.OnMessage<string>("pong", OnPongReceived);
         _room.OnMessage<string>("Shoot", OnShootingEnemy);
+        _room.OnMessage<string>("ReloadGun", OnReloadGunEnemy);
 
         _room.OnStateChange += OnChangeRoomHandler;
         _room.OnError += OnErrorRoomHandler;
@@ -78,14 +80,19 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         OnRemoveEnemy?.Invoke(player);
     }
 
-    public void SendMessage(string key , Dictionary<string , object> data)
+    public void SendMessageColyseus(string key , Dictionary<string , object> data)
     {
         _room.Send(key,data);
     }
 
-    public void SendMessage(string key, string data)
+    public void SendMessageColyseus(string key, string data)
     {
         _room.Send(key, data);
+    }
+
+    public void SendMessageColyseus(string key)
+    {
+        _room.Send(key);
     }
 
     private void SendPing()
@@ -108,7 +115,12 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         if (string.IsNullOrEmpty(data)) return;
 
         ShootingInfo info = JsonUtility.FromJson<ShootingInfo>(data);
-        ShootingEnemyEvent?.Invoke(info);
+        OnShootingEnemyEvent?.Invoke(info);
+    }
+
+    private void OnReloadGunEnemy(string key)
+    {
+        OnEnemyGunReloadEvent?.Invoke();
     }
 
     protected override void OnDestroy()

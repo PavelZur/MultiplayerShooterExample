@@ -62,6 +62,6 @@ public class PlayerMovementSyncer : MonoBehaviour
 
         //  Debug.Log("vy    " + _movementInfoDictionaty["vy"]);
 
-        MultiplayerManager.Instance.SendMessage(KEY_MOVE, _movementInfoDictionaty);
+        MultiplayerManager.Instance.SendMessageColyseus(KEY_MOVE, _movementInfoDictionaty);
     }
 }

@@ -10,7 +10,11 @@ public class ShootingController : MonoBehaviour
 
     private void Start()
     {
-        _pistol.ReloadGun += () => _gunAnimation.PlayReloadAnim();
+        _pistol.ReloadGun += () =>
+        {
+            _gunAnimation.PlayReloadAnim();
+            MultiplayerManager.Instance.SendMessageColyseus("reloadgun");
+        };
     }
 
     void Update()
@@ -71,7 +75,7 @@ public class ShootingController : MonoBehaviour
         };
 
         string data = JsonUtility.ToJson(info);
-        MultiplayerManager.Instance.SendMessage("shoot", data);
+        MultiplayerManager.Instance.SendMessageColyseus("shoot", data);
     }
 }
 
