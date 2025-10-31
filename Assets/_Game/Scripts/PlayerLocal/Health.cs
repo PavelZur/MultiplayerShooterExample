@@ -17,28 +17,37 @@ public class Health : MonoBehaviour
     {
        // SetMaxHealth();
 
-        if (_isEnemy)
-        {
-            CerrentHelth.Subscribe(_ => OnChangeHealthEnemy(_)).AddTo(this);
-        }       
+        //if (_isEnemy)
+        //{
+        //    CerrentHelth.Subscribe(_ => OnChangeHealthEnemy(_)).AddTo(this);
+        //}
     }
 
     public void RemoveHealth(int value)
     {
         int cerent = Mathf.Clamp(CerrentHelth.Value - value, 0, MaxHealth);
         CerrentHelth.Value = cerent;
+
+        OnChangeHealthEnemy(cerent);
     }
 
     public void AddHealth(int value)
     {
         int cerent = Mathf.Clamp(CerrentHelth.Value + value, 0, MaxHealth);
         CerrentHelth.Value = cerent;
+
+        OnChangeHealthEnemy(cerent);
     }
 
     public void SetMaxHealth()
     {
         CerrentHelth.Value = MaxHealth;
     }
+
+    //private void SetCurrentValueOnServerMessage(string data)
+    //{
+
+    //}
 
     public void OnChangeHealthPlayrLocal(List<DataChange> changes)
     {
@@ -73,6 +82,6 @@ public class Health : MonoBehaviour
         };
 
         Debug.Log("SendHealthEnemy" + cerrentHealth);
-        MultiplayerManager.Instance.SendMessageColyseus("damage", data);
+        MultiplayerManager.Instance.SendMessageColyseus("changehealth", data);
     }
 }

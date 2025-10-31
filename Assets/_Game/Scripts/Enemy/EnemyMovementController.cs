@@ -24,7 +24,6 @@ public class EnemyMovementController : MonoBehaviour
         {
             float maxDistance = _velosityMagnitude * Time.fixedDeltaTime;
             Vector3 newPosition = Vector3.MoveTowards(transform.position, _targetPosition, maxDistance);
-            //Vector3 clampY = new(newPosition.x, Mathf.Clamp(newPosition.y, 0, 1000), newPosition.z);
 
             _rigidbody.MovePosition(newPosition);
         }
@@ -34,7 +33,6 @@ public class EnemyMovementController : MonoBehaviour
         }
 
         RotateY();
-       // RotateHand();
     }
 
     private void SetPosition(Vector3 pos, Vector3 velosity, float averageInterval)
@@ -45,7 +43,6 @@ public class EnemyMovementController : MonoBehaviour
 
     private void Update()
     {
-     //   RotateY();
         RotateHand();
     }
 

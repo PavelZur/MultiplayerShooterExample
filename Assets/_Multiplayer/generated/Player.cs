@@ -42,7 +42,9 @@ public partial class Player : Schema {
 	public float anspeed = default(float);
 
 	[Type(11, "number")]
-
 	public float health = default(float);
+
+	[Type(12, "uint8")]
+	public byte weapon = default(byte);
 }
 

@@ -8,7 +8,7 @@ using Debug = UnityEngine.Debug;
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {  
     public float RTT { get; private set; }
-    public float PlayerID { get; private set; }
+    public string PlayerID { get; private set; }
 
     public Action<Player> OnCreatePlayerLocal;
     public Action<Player, string> OnCreateEnemy;
@@ -16,6 +16,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
     public Action<ShootingInfo> OnShootingEnemyEvent;
     public Action OnEnemyGunReloadEvent;
+    public Action<string> OnChangeHealthEvent;
 
     private ColyseusRoom<State> _room;
     private long _pingStartTime;
@@ -39,6 +40,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         _room.OnMessage<string>("pong", OnPongReceived);
         _room.OnMessage<string>("Shoot", OnShootingEnemy);
         _room.OnMessage<string>("ReloadGun", OnReloadGunEnemy);
+        _room.OnMessage<string>("ChangeHealth", OnChangeHealth);
 
         _room.OnStateChange += OnChangeRoomHandler;
         _room.OnError += OnErrorRoomHandler;
@@ -48,13 +50,18 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         IsInit = true;
     }
 
+    private void OnChangeHealth(string data)
+    {
+        OnChangeHealthEvent.Invoke(data);
+    }
+
     private void OnChangeRoomHandler(State state, bool isFirstState)
     {      
         if (isFirstState)
         {
             var player = state.players[_room.SessionId];
             OnCreatePlayerLocal?.Invoke(player);
-            PlayerID = player.__refId;
+            PlayerID = _room.SessionId;
 
             state.players.ForEach(ForEachEnemysCreate);
 

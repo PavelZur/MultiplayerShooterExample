@@ -1,11 +1,14 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public class EnemyShootingController : MonoBehaviour
 {
-    [SerializeField] private GunAnimation _gunAnimation;
-    [SerializeField] private Bullet _bulletPref;
-    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private Enemy enemy;
+    [SerializeField] private EnemyWeaponController _enemyWeaponController;
+    public Action OnShootEvent;
+
+
     void OnEnable()
     {
         MultiplayerManager.Instance.OnShootingEnemyEvent += Shoot;
@@ -13,11 +16,17 @@ public class EnemyShootingController : MonoBehaviour
 
     private void Shoot(ShootingInfo info)
     {
-        Vector3 start = new(info.stX, info.stY, info.stZ);
+
+        if (info.key != enemy.SessionId) return;
+
+        Vector3 start = _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.position;
         Vector3 target = new(info.tarX, info.tarY, info.tarZ);
-        Bullet newBullet = Instantiate(_bulletPref, start, _spawnPoint.rotation);
-        newBullet.BulletFlight(start, target, info.bspeed).Forget();
-        _gunAnimation.PlayShootAnim();
+
+        Bullet newBullet = Instantiate(_enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.PrefabBullet,
+            start, _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
+
+        newBullet.BulletFlight(start, target, _enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed).Forget();
+        OnShootEvent?.Invoke();
     }
 
     private void OnDisable()

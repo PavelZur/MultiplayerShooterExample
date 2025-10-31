@@ -6,6 +6,7 @@ public class HealthBarView : MonoBehaviour
 {
     [SerializeField] private Health _health;
     [SerializeField] private Image _imageFill;
+
     private void OnEnable()
     {
         _health.CerrentHelth.Subscribe(cerent => UpdateViewHealth(cerent, _health.MaxHealth)).AddTo(this);

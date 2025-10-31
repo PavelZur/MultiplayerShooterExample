@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private PlayerMovementModel _movementModel;
+    [SerializeField] private PlayerWeaponModel _weaponModel;
+    [SerializeField] private Health _health;
     private List<float> _receiveTimeInteval = new() { 0, 0, 0, 0, 0 };
     private float _lastReceiveTime = 0f;
 
@@ -78,6 +80,14 @@ public class EnemyController : MonoBehaviour
                     break;
                 case "sit":
                     _movementModel.IsSitting.Value = (float)dataChanges.Value == 1 ? true : false;
+                    break;
+                case "weapon":
+                    byte index = (byte)dataChanges.Value;
+                    _weaponModel.CurrentActiveWeapon.Value = (TypeWeapon)index;
+                    break;
+                case "health":
+                    float health = (float)dataChanges.Value;
+                    _health.CerrentHelth.Value = (int)health;
                     break;
 
                 default:
