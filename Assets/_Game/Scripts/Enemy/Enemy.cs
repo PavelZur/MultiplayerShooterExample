@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     {
         SessionId = sessionId;
         _player = player;
-        _health.CerrentHelth.Value = (int)player.health;
+        _health.CerrentHelth.Value = (int)player.healthData.curHealth;
         _player.OnChange += _controller.OnChangeHandler;
     }
 

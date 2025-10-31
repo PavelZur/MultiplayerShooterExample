@@ -17,7 +17,9 @@ public class NetworkEntitySpawner : MonoBehaviour
 
     private void CreateEnemy(Player enemyDataRemote,string sessionId)
     {
-        Vector3 position = new(enemyDataRemote.px, enemyDataRemote.py, enemyDataRemote.pz);
+        Vector3 position = new(enemyDataRemote.movementData.px, enemyDataRemote.movementData.py, enemyDataRemote.movementData.pz);
+
+
         Enemy enemy = Instantiate(_enemyPrefab, position, Quaternion.identity);
         enemy.Init(enemyDataRemote, sessionId);
         _playersOnRoom.Add(sessionId, enemy);
@@ -25,9 +27,9 @@ public class NetworkEntitySpawner : MonoBehaviour
 
     private void CreatePlayer(Player playerDataRemote)
     {
-        Vector3 position = new(playerDataRemote.px, playerDataRemote.py, playerDataRemote.pz);
+        Vector3 position = new(playerDataRemote.movementData.px, playerDataRemote.movementData.py, playerDataRemote.movementData.pz);
         PlayerLocal playerLocal = Instantiate(_characterPrefab, position, Quaternion.identity);
-        playerLocal.Init(playerDataRemote);
+        playerLocal.Init(playerDataRemote).Forget();
     }
 
     private void RemoveEnemy(Player player, string sessionId)

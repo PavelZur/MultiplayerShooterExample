@@ -1,8 +1,7 @@
-using UnityEngine;
-using UniRx;
-using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+using System;
 
 public class WeaponController : MonoBehaviour
 {
@@ -16,21 +15,21 @@ public class WeaponController : MonoBehaviour
     public Action OnChangeWeaponEvent;
 
     public bool IsInit;
+
     private void Start()
     {
         IsInit = false;
 
         CreateWeaponDictionaty();
 
-        CurrentActiveWeapon = AllWeaponsOfType[TypeWeapon.Pistol];
-        _weaponModel.CurrentActiveWeapon.Value = CurrentActiveWeapon.TypeWeapon;
+        //CurrentActiveWeapon = AllWeaponsOfType[TypeWeapon.Pistol];
+        //_weaponModel.CurrentActiveWeapon.Value = CurrentActiveWeapon.TypeWeapon;
 
         foreach (var weapon in AllWeaponsOfType)
         {
             weapon.Value.ReloadGun += () =>
             {
-                OnReloadGunEvent?.Invoke();
-                MultiplayerManager.Instance.SendMessageColyseus("reloadgun");
+                OnReloadGunEvent?.Invoke();     
             };
         }
 
@@ -39,19 +38,7 @@ public class WeaponController : MonoBehaviour
             _weaponViewUI.Create(item.Key, ChangeActiveWeapon);
         }
 
-        _weaponModel.CurrentActiveWeapon.Subscribe(type => SendActivWeapon(type)).AddTo(this);
-
         IsInit = true;
-    }
-
-    private void SendActivWeapon(TypeWeapon typeWeapon)
-    {
-        Dictionary<string, object> data = new()
-        {
-            { "id", (byte)typeWeapon }
-        };
-
-        MultiplayerManager.Instance.SendMessageColyseus("weaponchange", data);
     }
 
     public void ChangeActiveWeapon(TypeWeapon typeWeapon)

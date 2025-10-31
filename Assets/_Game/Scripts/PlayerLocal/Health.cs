@@ -12,76 +12,23 @@ public class Health : MonoBehaviour
     [Header("All")]
     public int MaxHealth { get; private set; } = 100;
     public ReactiveProperty<int> CerrentHelth = new();
+    public string SessionID { get => _enemy.SessionId; }
 
-    private void Start()
+    public void Init(int max,int cur)
     {
-       // SetMaxHealth();
-
-        //if (_isEnemy)
-        //{
-        //    CerrentHelth.Subscribe(_ => OnChangeHealthEnemy(_)).AddTo(this);
-        //}
+        SetMaxHealth(max);
+        ChangeHealthHandler(cur);
     }
 
-    public void RemoveHealth(int value)
+    public void ChangeHealthHandler(int newHealthValue)
     {
-        int cerent = Mathf.Clamp(CerrentHelth.Value - value, 0, MaxHealth);
-        CerrentHelth.Value = cerent;
-
-        OnChangeHealthEnemy(cerent);
+        newHealthValue = Mathf.Clamp(newHealthValue, 0, MaxHealth);
+        CerrentHelth.Value = newHealthValue;
     }
 
-    public void AddHealth(int value)
+    public void SetMaxHealth(int maxHealth)
     {
-        int cerent = Mathf.Clamp(CerrentHelth.Value + value, 0, MaxHealth);
-        CerrentHelth.Value = cerent;
-
-        OnChangeHealthEnemy(cerent);
-    }
-
-    public void SetMaxHealth()
-    {
-        CerrentHelth.Value = MaxHealth;
-    }
-
-    //private void SetCurrentValueOnServerMessage(string data)
-    //{
-
-    //}
-
-    public void OnChangeHealthPlayrLocal(List<DataChange> changes)
-    {
-        foreach (var dataChanges in changes)
-        {
-            switch (dataChanges.Field)
-            {
-                case "health":
-                    float newHealth = (float)dataChanges.Value;
-                    Debug.Log("HealthPlayrLocal " + newHealth);
-                    if (newHealth < CerrentHelth.Value)
-                    {
-                        RemoveHealth(CerrentHelth.Value - (int)newHealth);
-                    }
-                    else if (newHealth > CerrentHelth.Value)
-                    {
-                        AddHealth((int)newHealth - CerrentHelth.Value);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private void OnChangeHealthEnemy(int cerrentHealth)
-    {
-        Dictionary<string, object> data = new()
-        {
-            { "id", _enemy.SessionId },
-            { "health", cerrentHealth }
-        };
-
-        Debug.Log("SendHealthEnemy" + cerrentHealth);
-        MultiplayerManager.Instance.SendMessageColyseus("changehealth", data);
+        maxHealth = Mathf.Clamp(maxHealth, 0, int.MaxValue);
+        MaxHealth = maxHealth;
     }
 }

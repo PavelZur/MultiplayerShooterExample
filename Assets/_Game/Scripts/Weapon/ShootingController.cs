@@ -2,14 +2,14 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 public class ShootingController : MonoBehaviour
 {
     [SerializeField] private WeaponController _weaponController;
     [SerializeField] protected LayerMask _layerMask;
 
-    public Action OnShootEvent;
+    public Action<Vector3> OnShootEvent;
+    public Action<string,int> OnApplyEnemyDamageEvent;
 
     private CancellationTokenSource _shootingCancellationTokenSource;
 
@@ -95,42 +95,16 @@ public class ShootingController : MonoBehaviour
             bulletTarget = hit.point;
         }
 
-        SendBulletInfo(bulletTarget);
-
-        OnShootEvent?.Invoke();
-
-
+        OnShootEvent?.Invoke(bulletTarget);
+       
         await newBullet.BulletFlight(_weaponController.CurrentActiveWeapon.BulletStartTranform.position, bulletTarget,
             _weaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed);
 
         if (health != null)
         {
-            health.RemoveHealth(_weaponController.CurrentActiveWeapon.WeaponParametrs.Damage);
+            OnApplyEnemyDamageEvent?.Invoke(health.SessionID, _weaponController.CurrentActiveWeapon.WeaponParametrs.Damage);
         }
     }
-
-    private void SendBulletInfo(Vector3 bulletTarget)
-    {
-        ShootingInfo info = new()
-        {
-            key = MultiplayerManager.Instance.PlayerID,
-
-            tarX = bulletTarget.x,
-            tarY = bulletTarget.y,
-            tarZ = bulletTarget.z,
-        };
-
-        string data = JsonUtility.ToJson(info);
-        MultiplayerManager.Instance.SendMessageColyseus("shoot", data);
-    }
 }
 
-[System.Serializable]
-public struct ShootingInfo
-{
-    public string key;
 
-    public float tarX;
-    public float tarY;
-    public float tarZ;
-}

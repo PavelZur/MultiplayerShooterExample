@@ -1,11 +1,20 @@
 
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerLocal : MonoBehaviour
 {
     [SerializeField] private Health _health;
-    public void Init(Player player)
+    [SerializeField] private PlayerDataReceiver _playerDataReceiver;
+    [SerializeField] private WeaponController _weaponController;
+
+    public async UniTaskVoid Init(Player player)
     {
-        player.OnChange += _health.OnChangeHealthPlayrLocal;
-    }  
+        _playerDataReceiver.InitDataReceiver(player);
+        _health.Init(player.healthData.maxHealth, player.healthData.curHealth);
+
+        await UniTask.WaitUntil(() => _weaponController.IsInit);
+
+        _weaponController.ChangeActiveWeapon((TypeWeapon)player.weaponData.weapon);
+    }
 }

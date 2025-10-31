@@ -32,6 +32,11 @@ public class GunAnimation : MonoBehaviour
         }      
     }
 
+    public void PlayShootAnim(Vector3 any = default)
+    {
+        _animator.Play(NAME_SHOOT_ANIM);
+    }
+
     public void PlayShootAnim()
     {
         _animator.Play(NAME_SHOOT_ANIM);
@@ -39,13 +44,11 @@ public class GunAnimation : MonoBehaviour
 
     public void PlayReloadAnim()
     {
-        Debug.Log(NAME_RELOAD_ANIM);
         _animator.SetTrigger("Reload");
     }
 
     public void PlayChangeAnim()
     {
-        Debug.Log(NAME_RELOAD_ANIM);
         _animator.SetTrigger("Change");
     }
 
