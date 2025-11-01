@@ -1242,6 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShootingController
   enemy: {fileID: 2556922404261170682}
   _enemyWeaponController: {fileID: 3276556356174480846}
+  _enemyDataReceiver: {fileID: 4805171551612846316}
 --- !u!114 &6225301206729374377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1257,6 +1258,7 @@ MonoBehaviour:
   _weaponController: {fileID: 0}
   _shootingController: {fileID: 0}
   _isEnemy: 1
+  _enemyDataReceiver: {fileID: 4805171551612846316}
   _playerWeaponModel: {fileID: 8490883185044688935}
   _enemyShootingController: {fileID: 5286373946182727206}
   _animator: {fileID: 4364680509510656830}
@@ -2151,6 +2153,54 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6713208793835562285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2983103242024789187}
+  - component: {fileID: 4805171551612846316}
+  m_Layer: 7
+  m_Name: EnemyDataReceiverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2983103242024789187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713208793835562285}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8517636300726114092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4805171551612846316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713208793835562285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e451529b3a3b8b46a1b4e75d6a0bf5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDataReceiver
+  _enemyController: {fileID: 6674263297640381577}
+  _movementModel: {fileID: 1048427848720139821}
+  _weaponModel: {fileID: 8490883185044688935}
+  _health: {fileID: 7460961893478066589}
 --- !u!1 &6729388153302044151
 GameObject:
   m_ObjectHideFlags: 0
@@ -2487,10 +2537,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2983103242024789187}
   - {fileID: 4855687636345227441}
   - {fileID: 7756756481312601418}
   - {fileID: 390449808098257104}
   - {fileID: 3279852580143140601}
+  - {fileID: 4581233129051456874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2556922404261170682
@@ -2506,7 +2558,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _health: {fileID: 7460961893478066589}
-  _controller: {fileID: 6674263297640381577}
+  _enemyDataReceiver: {fileID: 4805171551612846316}
+  _weaponModel: {fileID: 8490883185044688935}
+  _weaponController: {fileID: 3276556356174480846}
+  _enemyController: {fileID: 6674263297640381577}
 --- !u!114 &6674263297640381577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2520,8 +2575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _movementModel: {fileID: 1048427848720139821}
-  _weaponModel: {fileID: 8490883185044688935}
-  _health: {fileID: 7460961893478066589}
+  IsInit: 0
 --- !u!114 &8661941055193726406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,6 +2592,9 @@ MonoBehaviour:
   _rigidbody: {fileID: 2703485875578298584}
   _handTranform: {fileID: 1595673057341978886}
   _enemyController: {fileID: 6674263297640381577}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &1048427848720139821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2825,7 +2882,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
 --- !u!1 &8338505714113148934
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,6 +2974,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8437645896818848412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4581233129051456874}
+  - component: {fileID: 3763426916991894831}
+  m_Layer: 0
+  m_Name: EnemyNetworkHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4581233129051456874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8437645896818848412}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.07789, y: 0.71899, z: 0.4939}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8517636300726114092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3763426916991894831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8437645896818848412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45fdac4dd89c5f64c970a11348431651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &8622370390209012031
 GameObject:
   m_ObjectHideFlags: 0

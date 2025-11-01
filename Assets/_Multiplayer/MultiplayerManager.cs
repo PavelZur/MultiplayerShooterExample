@@ -15,8 +15,9 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     public Action<Player, string> OnRemoveEnemy;
 
     public Action<ShootingInfo> OnShootingEnemyEvent;
-    public Action OnEnemyGunReloadEvent;
+    public Action<string> OnEnemyGunReloadEvent;
     public Action<string> OnChangeHealthEvent;
+    public Action<string> OnDiePlayerEvent;
 
     private ColyseusRoom<State> _room;
     private long _pingStartTime;
@@ -36,19 +37,27 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
         Instance.InitializeClient();
 
+        Transform transformPoint = SpawnPointManager.Instance.GetRandomTransformPoint();
+        Vector3 spawnPosition = transformPoint.position;
+        float rotationY = transformPoint.eulerAngles.y;
+
         Dictionary<string, object> _initPlayerData = new()
         {
-            { "maxHealth", 500 },
-            { "curHealth", 500 },
-            { "weaponId", 1 }
+            { "maxHealth", 50 },
+            { "curHealth", 50 },
+            { "weaponId", 1 },
+            { "px", spawnPosition.x },
+            { "py", spawnPosition.y },
+            { "pz", spawnPosition.z },
+            { "ry", rotationY },
         };
 
         _room = await Instance.client.JoinOrCreate<State>("state_handler", _initPlayerData);
 
         _room.OnMessage<string>("pong", OnPongReceived);
         _room.OnMessage<string>("Shoot", OnShootingEnemy);
-        _room.OnMessage<string>("ReloadGun", OnReloadGunEnemy);
-        _room.OnMessage<string>("ChangeHealth", OnChangeHealth);
+        _room.OnMessage<string>("ReloadWeapon", OnReloadGunEnemy);
+        _room.OnMessage<string>("Die", OnDiePlayer);
 
         _room.OnStateChange += OnChangeRoomHandler;
         _room.OnError += OnErrorRoomHandler;
@@ -56,11 +65,6 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         InvokeRepeating(nameof(SendPing), 1f, 3f);
 
         IsInit = true;
-    }
-
-    private void OnChangeHealth(string data)
-    {
-        OnChangeHealthEvent.Invoke(data);
     }
 
     private void OnChangeRoomHandler(State state, bool isFirstState)
@@ -133,9 +137,14 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         OnShootingEnemyEvent?.Invoke(info);
     }
 
-    private void OnReloadGunEnemy(string key)
+    private void OnReloadGunEnemy(string sessionId)
     {
-        OnEnemyGunReloadEvent?.Invoke();
+        OnEnemyGunReloadEvent?.Invoke(sessionId);
+    }
+
+    private void OnDiePlayer(string sessionId)
+    {
+        OnDiePlayerEvent?.Invoke(sessionId);
     }
 
     protected override void OnDestroy()

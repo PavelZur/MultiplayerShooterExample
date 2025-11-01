@@ -4,16 +4,19 @@ public class InputController : MonoBehaviour
 {
     public static InputController Instance { get; private set; }
 
-    public float AxisRawHorizontal => Input.GetAxisRaw("Horizontal");
-    public float AxisRawVertical => Input.GetAxisRaw("Vertical");
-    public float MouseAxisY => Input.GetAxis("Mouse Y");
-    public float MouseAxisX => Input.GetAxis("Mouse X");
-    public bool JumpKeyPressed => Input.GetKeyDown(KeyCode.Space);
-    public bool MouseButtonDown0 => Input.GetMouseButtonDown(0);
-    public bool SittingKeyPressed => Input.GetKey(KeyCode.LeftControl);
-    public bool MouseLeftButtonDown => Input.GetMouseButtonDown(0);
-    public bool MouseLeftButtonPressed => Input.GetMouseButton(0);
-    public bool MouseLeftButtonUp => Input.GetMouseButtonUp(0);
+    private bool IsCursorUnlocked => Cursor.lockState == CursorLockMode.None;
+
+    public float AxisRawHorizontal => IsCursorUnlocked ? 0f : Input.GetAxisRaw("Horizontal");
+    public float AxisRawVertical => IsCursorUnlocked ? 0f : Input.GetAxisRaw("Vertical");
+    public float MouseAxisY => IsCursorUnlocked ? 0f : Input.GetAxis("Mouse Y");
+    public float MouseAxisX => IsCursorUnlocked ? 0f : Input.GetAxis("Mouse X");
+
+    public bool JumpKeyPressed => IsCursorUnlocked ? false : Input.GetKeyDown(KeyCode.Space);
+    public bool MouseButtonDown0 => IsCursorUnlocked ? false : Input.GetMouseButtonDown(0);
+    public bool SittingKeyPressed => IsCursorUnlocked ? false : Input.GetKey(KeyCode.LeftControl);
+    public bool MouseLeftButtonDown => IsCursorUnlocked ? false : Input.GetMouseButtonDown(0);
+    public bool MouseLeftButtonPressed => IsCursorUnlocked ? false : Input.GetMouseButton(0);
+    public bool MouseLeftButtonUp => IsCursorUnlocked ? false : Input.GetMouseButtonUp(0);
 
 
     private void Awake()

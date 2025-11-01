@@ -9,6 +9,7 @@ public class GunAnimation : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] private bool _isEnemy;
+    [SerializeField] private EnemyDataReceiver _enemyDataReceiver;
     [SerializeField] private PlayerWeaponModel _playerWeaponModel;
     [SerializeField] private EnemyShootingController _enemyShootingController;
 
@@ -21,8 +22,8 @@ public class GunAnimation : MonoBehaviour
         if (_isEnemy) 
         {
             _playerWeaponModel.CurrentActiveWeapon.Skip(1).Subscribe(_ => PlayChangeAnim()).AddTo(this);
-            MultiplayerManager.Instance.OnEnemyGunReloadEvent += PlayReloadAnim;
-            _enemyShootingController.OnShootEvent += PlayShootAnim;
+            _enemyDataReceiver.ReloadWeapon += PlayReloadAnim;
+            _enemyShootingController.OnShootViewEvent += PlayShootAnim;
         }
         else
         {
@@ -56,8 +57,8 @@ public class GunAnimation : MonoBehaviour
     {
         if (_isEnemy)
         {
-            MultiplayerManager.Instance.OnEnemyGunReloadEvent -= PlayReloadAnim;
-            _enemyShootingController.OnShootEvent -= PlayShootAnim;
+            _enemyDataReceiver.ReloadWeapon -= PlayReloadAnim;
+            _enemyShootingController.OnShootViewEvent -= PlayShootAnim;
         }
         else
         {

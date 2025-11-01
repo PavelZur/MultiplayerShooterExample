@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class NetworkEntitySpawner : MonoBehaviour
 {
+    [SerializeField] private EnemyNetworkHandler _enemyNetworkHandler;
     [SerializeField] private PlayerLocal _characterPrefab;
     [SerializeField] private Enemy _enemyPrefab;
-
-    private Dictionary<string,Enemy> _playersOnRoom = new();
 
     void Start()
     {
@@ -19,25 +18,26 @@ public class NetworkEntitySpawner : MonoBehaviour
     {
         Vector3 position = new(enemyDataRemote.movementData.px, enemyDataRemote.movementData.py, enemyDataRemote.movementData.pz);
 
-
         Enemy enemy = Instantiate(_enemyPrefab, position, Quaternion.identity);
-        enemy.Init(enemyDataRemote, sessionId);
-        _playersOnRoom.Add(sessionId, enemy);
+        enemy.Init(enemyDataRemote, sessionId).Forget();
+        _enemyNetworkHandler.SessionIdEnemyPairsOnRoom.Add(sessionId, enemy);
     }
 
     private void CreatePlayer(Player playerDataRemote)
     {
         Vector3 position = new(playerDataRemote.movementData.px, playerDataRemote.movementData.py, playerDataRemote.movementData.pz);
-        PlayerLocal playerLocal = Instantiate(_characterPrefab, position, Quaternion.identity);
+        Vector3 euler = new(0, playerDataRemote.movementData.ry,0);
+
+        PlayerLocal playerLocal = Instantiate(_characterPrefab, position, Quaternion.Euler(euler));
         playerLocal.Init(playerDataRemote).Forget();
     }
 
     private void RemoveEnemy(Player player, string sessionId)
     {
-        if (!_playersOnRoom.ContainsKey(sessionId)) return;
+        if (!_enemyNetworkHandler.SessionIdEnemyPairsOnRoom.ContainsKey(sessionId)) return;
 
-        _playersOnRoom[sessionId].Kill();
-        _playersOnRoom.Remove(sessionId);
+        _enemyNetworkHandler.SessionIdEnemyPairsOnRoom[sessionId].Kill();
+        _enemyNetworkHandler.SessionIdEnemyPairsOnRoom.Remove(sessionId);
     }   
 
     private void OnDestroy()

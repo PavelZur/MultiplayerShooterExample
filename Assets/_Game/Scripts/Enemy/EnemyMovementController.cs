@@ -1,4 +1,3 @@
-using UniRx;
 using UnityEngine;
 
 public class EnemyMovementController : MonoBehaviour
@@ -7,17 +6,32 @@ public class EnemyMovementController : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Transform _handTranform;
     [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private LayerMask _groundMask;
 
     private Vector3 _targetPosition;
     private float _velosityMagnitude;
-
-    private void Awake()
+    private bool IsGrounded
     {
-        _targetPosition = transform.position;
+        get
+        {
+            return Physics.CheckSphere(transform.position, 0.2f, _groundMask);
+        }
+    }
+
+
+    private void Update()
+    {
+        if (!_enemyController.IsInit) return;
+        RotateHand();
     }
 
     private void FixedUpdate()
     {
+        if (!_enemyController.IsInit) return;
+
+        _movementModel.IsGrounded.Value = IsGrounded;
+        _movementModel.Speed.Value = GetSpeed();
+
         SetPosition(_movementModel.PlayerPosition.Value, _movementModel.PlayerVelosity.Value, _enemyController.AvarageInterval);
 
         if (_velosityMagnitude > 0.2f)
@@ -41,11 +55,6 @@ public class EnemyMovementController : MonoBehaviour
         _velosityMagnitude = velosity.magnitude;
     }
 
-    private void Update()
-    {
-        RotateHand();
-    }
-
     private void RotateY()
     {
         Quaternion targetRotation = Quaternion.Euler(0f, _movementModel.PlayerRotationY.Value, 0f);
@@ -56,5 +65,21 @@ public class EnemyMovementController : MonoBehaviour
     {
         Quaternion targetRotation = Quaternion.Euler(_movementModel.HandRotationX.Value, 0f, 0f);
         _handTranform.localRotation = Quaternion.Lerp(_handTranform.localRotation, targetRotation, 30f * Time.deltaTime);
+    }
+
+    private float GetSpeed()
+    {
+        if (_velosityMagnitude < 0.2)
+        {
+            return 0;
+        }
+        else
+        {
+            if (Vector3.Dot(_movementModel.PlayerVelosity.Value.normalized, transform.forward) < 0)
+            {
+                return _velosityMagnitude * -1;
+            }
+        }
+        return _velosityMagnitude;
     }
 }

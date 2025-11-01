@@ -1,22 +1,32 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UniRx;
-using Sirenix.OdinInspector;
 
 public class PlayerDataSync : MonoBehaviour
 {
+    [SerializeField] private PlayerMovementController _playerMovementController;
     [SerializeField] private ShootingController _shootingController;
     [SerializeField] private PlayerMovementModel _movementModel;
     [SerializeField] private WeaponController _weaponController;
     [SerializeField] private PlayerWeaponModel _weaponModel;
+    [SerializeField] private DiePanelView _diePanelView;
+
 
     private const string KEY_STATE_MOVEMENT = "statemovement";
     private const string KEY_CHANGE_WEAPON = "weaponchange";
     private const string KEY_RELOAD_WEAPON = "reloadweapon";
     private const string KEY_APPLY_DAMAGE = "applydamage";
+    private const string KEY_RESTART = "restart";
     private const string KEY_SHOOT = "shoot";
     private const string KEY_MOVE = "move";
+    private const string KEY_DIE = "die";
+
+    private readonly Dictionary<string, object> _stateMovementData = new()
+    {
+        { "sit", false },
+    };
 
     private readonly Dictionary<string, object> _movementInfoData = new()
     {
@@ -30,9 +40,15 @@ public class PlayerDataSync : MonoBehaviour
         { "rx", 0f },
     };
 
-    private readonly Dictionary<string, object> _stateMovementData = new()
+    private readonly Dictionary<string, object> _initPlayerData = new()
     {
-        { "sit", false },
+        { "maxHealth", 0 },
+        { "curHealth", 0 },
+        { "weaponId", (byte)0 },
+        { "px", 0 },
+        { "py", 0 },
+        { "pz", 0 },
+        { "ry", 0 }
     };
 
     private readonly Dictionary<string, object> _weaponData = new()
@@ -43,17 +59,25 @@ public class PlayerDataSync : MonoBehaviour
     private readonly Dictionary<string, object> _damageData = new()
     {
         { "id", "" },
-        { "health", 0 }
+        { "damage", 0 }
     };
 
+    private readonly Dictionary<string, object> _dieData = new()
+    {
+        { "id", "" },
+        { "die", false },
+    };
 
     private void Start()
     {
         SendPosAndRot(transform.position);
 
         _movementModel.IsSitting.Subscribe(isSiting => SendStateMovement(isSiting)).AddTo(this);
+       // _movementModel.IsDieState.Where(isDie => isDie == false).Subscribe(isDie => SendDieState(isDie)).AddTo(this);
+       // _movementModel.IsDieState.Skip(1).Where(isDie => isDie == false).Subscribe(isDie => SendPlayerRestart()).AddTo(this);
         _weaponModel.CurrentActiveWeapon.Subscribe(weapon => SendActivWeapon(weapon)).AddTo(this);
 
+        _diePanelView.OnButtonRestartPressedEvent += SendPlayerRestart;
         _weaponController.OnReloadGunEvent += SendReloadWeapon;
         _shootingController.OnShootEvent += SendBulletInfo;
         _shootingController.OnApplyEnemyDamageEvent += SendApplyDamageEnemy;
@@ -61,6 +85,7 @@ public class PlayerDataSync : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_movementModel.IsDieState.Value) return;
         SendPosAndRot(_movementModel.PlayerPosition.Value);
     }
 
@@ -102,7 +127,7 @@ public class PlayerDataSync : MonoBehaviour
 
     private void SendReloadWeapon()
     {
-        MultiplayerManager.Instance.SendMessageColyseus(KEY_RELOAD_WEAPON);
+        MultiplayerManager.Instance.SendMessageColyseus(KEY_RELOAD_WEAPON, MultiplayerManager.Instance.PlayerID);
     }
 
     private void SendBulletInfo(Vector3 bulletTarget)
@@ -128,13 +153,30 @@ public class PlayerDataSync : MonoBehaviour
         MultiplayerManager.Instance.SendMessageColyseus(KEY_APPLY_DAMAGE, _damageData);
     }
 
-    [Button]
-    public void SendApplyDamageEnemy()
+    private void SendDieState(bool isDie)
     {
-        _damageData["id"] = MultiplayerManager.Instance.PlayerID;
-        _damageData["damage"] = 10;
+        _dieData["id"] = MultiplayerManager.Instance.PlayerID;
+        _dieData["die"] = isDie;
+        MultiplayerManager.Instance.SendMessageColyseus(KEY_DIE, _dieData);
+    }
 
-        MultiplayerManager.Instance.SendMessageColyseus(KEY_APPLY_DAMAGE, _damageData);
+    private void SendPlayerRestart()
+    {
+        Transform transformPoint = SpawnPointManager.Instance.GetRandomTransformPoint();
+        Vector3 spawnPosition = transformPoint.position;
+        float rotationY = transformPoint.eulerAngles.y;
+        _playerMovementController.TranslatePlayerOnRestart(spawnPosition);
+
+        _initPlayerData["maxHealth"] = 50;
+        _initPlayerData["curHealth"] = 50;
+        _initPlayerData["weaponId"] = (byte)_weaponModel.CurrentActiveWeapon.Value;
+        //_initPlayerData["px"] = spawnPosition.x;
+        //_initPlayerData["py"] = spawnPosition.y;
+        //_initPlayerData["pz"] = spawnPosition.z;
+        //_initPlayerData["ry"] = rotationY;
+
+        MultiplayerManager.Instance.SendMessageColyseus(KEY_RESTART, _initPlayerData);
+
     }
 
     private void OnDestroy()

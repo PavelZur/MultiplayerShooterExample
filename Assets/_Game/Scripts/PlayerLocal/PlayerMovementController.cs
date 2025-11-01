@@ -44,11 +44,13 @@ public class PlayerMovementController : MonoBehaviour
     private void Start()
     {
         _inputController = InputController.Instance;
-        _cerrentHandRotateX = _handTranform.rotation.eulerAngles.x;
+        _cerrentHandRotateX = 0;
     }
 
     private void Update()
     {
+        if (_playerMovementModel.IsDieState.Value) return;
+
         _inputH = _inputController.AxisRawHorizontal;
         _inputV = _inputController.AxisRawVertical;
         _mouseX = _inputController.MouseAxisX;
@@ -67,10 +69,25 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RotateY();
-        ApplyGravity();
-        Move();
-        SetValuesOnPlayerModel();
+        if (!_playerMovementModel.IsDieState.Value)
+        {
+            RotateY();
+            ApplyGravity();
+            Move();
+            SetValuesOnPlayerModel();
+        }       
+    }
+
+    public void TranslatePlayerOnRestart(Vector3 pointPos)
+    {
+        _rb.isKinematic = true;
+        _rb.interpolation = RigidbodyInterpolation.None;
+        _rb.linearVelocity = Vector3.zero;
+
+        _rb.position = pointPos;
+
+        _rb.isKinematic = false;
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     private void Move()
@@ -82,16 +99,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private void RotateY()
     {
-        if (Cursor.lockState == CursorLockMode.None) return;
-
         _rb.angularVelocity = new(0f, _rotateY * _mouseSensitivity, 0f);
         _rotateY = 0;
     }
 
     private void RotateHand()
     {
-        if (Cursor.lockState == CursorLockMode.None) return;
-
         float x = _mouseY * -_mouseSensitivity;
         _cerrentHandRotateX = Mathf.Clamp(_cerrentHandRotateX + x, _minHandAngle, _maxHandAngle);
         _handTranform.localEulerAngles = new(_cerrentHandRotateX, 0, 0);
@@ -108,7 +121,7 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    void ApplyGravity()
+    private void ApplyGravity()
     {
         if (!_isJumping && IsGrounded)
         {

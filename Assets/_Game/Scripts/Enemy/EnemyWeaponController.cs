@@ -14,11 +14,10 @@ public class EnemyWeaponController : MonoBehaviour
     private void Start()
     {
         IsInit = false;
+
         CreateWeaponDictionaty();
-
-        CurrentActiveWeapon = AllWeaponsOfType[_weaponModel.CurrentActiveWeapon.Value];
-
         _weaponModel.CurrentActiveWeapon.Subscribe(weapon => ChangeActiveWeapon(AllWeaponsOfType[weapon])).AddTo(this);
+
         IsInit = true;
     }
 

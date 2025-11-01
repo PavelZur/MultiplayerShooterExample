@@ -10,8 +10,8 @@ public class PlayerLocal : MonoBehaviour
 
     public async UniTaskVoid Init(Player player)
     {
-        _playerDataReceiver.InitDataReceiver(player);
         _health.Init(player.healthData.maxHealth, player.healthData.curHealth);
+        _playerDataReceiver.InitDataReceiver(player);
 
         await UniTask.WaitUntil(() => _weaponController.IsInit);
 

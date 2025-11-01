@@ -6,19 +6,15 @@ public class EnemyShootingController : MonoBehaviour
 {
     [SerializeField] private Enemy enemy;
     [SerializeField] private EnemyWeaponController _enemyWeaponController;
-    public Action OnShootEvent;
+    [SerializeField] private EnemyDataReceiver _enemyDataReceiver;
+    public Action OnShootViewEvent;
 
-
-    void OnEnable()
+    private void Start()
     {
-        MultiplayerManager.Instance.OnShootingEnemyEvent += Shoot;
+        _enemyDataReceiver.Shoot += Shoot;
     }
-
     private void Shoot(ShootingInfo info)
     {
-
-        if (info.key != enemy.SessionId) return;
-
         Vector3 start = _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.position;
         Vector3 target = new(info.tarX, info.tarY, info.tarZ);
 
@@ -26,11 +22,12 @@ public class EnemyShootingController : MonoBehaviour
             start, _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
 
         newBullet.BulletFlight(start, target, _enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed).Forget();
-        OnShootEvent?.Invoke();
+        OnShootViewEvent?.Invoke();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        MultiplayerManager.Instance.OnShootingEnemyEvent -= Shoot;
+        _enemyDataReceiver.Shoot -= Shoot;
     }
 }
+
