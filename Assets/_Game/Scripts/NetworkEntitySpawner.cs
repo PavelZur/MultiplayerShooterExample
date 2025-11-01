@@ -36,6 +36,8 @@ public class NetworkEntitySpawner : MonoBehaviour
     {
         if (!_enemyNetworkHandler.SessionIdEnemyPairsOnRoom.ContainsKey(sessionId)) return;
 
+        Debug.Log("RemoveEnemy  " + sessionId);
+
         _enemyNetworkHandler.SessionIdEnemyPairsOnRoom[sessionId].Kill();
         _enemyNetworkHandler.SessionIdEnemyPairsOnRoom.Remove(sessionId);
     }   

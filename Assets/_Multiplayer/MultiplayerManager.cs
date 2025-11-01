@@ -72,8 +72,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         if (isFirstState)
         {
             var player = state.players[_room.SessionId];
-            OnCreatePlayerLocal?.Invoke(player);
             PlayerID = _room.SessionId;
+            OnCreatePlayerLocal?.Invoke(player);
 
             state.players.ForEach(ForEachEnemysCreate);
 
