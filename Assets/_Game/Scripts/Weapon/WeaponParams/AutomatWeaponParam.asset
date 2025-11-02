@@ -19,5 +19,5 @@ MonoBehaviour:
   <TimeToReloading>k__BackingField: 1
   <Range>k__BackingField: 1
   <BulletSpeed>k__BackingField: 200
-  <PeriodShooting>k__BackingField: 0.2
+  <PeriodShooting>k__BackingField: 0.1
   <IsAutomatic>k__BackingField: 1
