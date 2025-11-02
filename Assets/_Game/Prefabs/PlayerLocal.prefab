@@ -3743,6 +3743,7 @@ GameObject:
   - component: {fileID: 5858623346123257506}
   - component: {fileID: 7607801211875191526}
   - component: {fileID: 8543997308434797479}
+  - component: {fileID: 3199263480918589275}
   m_Layer: 7
   m_Name: PlayerLocal
   m_TagString: Untagged
@@ -3922,6 +3923,20 @@ MonoBehaviour:
   _enemy: {fileID: 0}
   CerrentHelth:
     value: 100
+--- !u!114 &3199263480918589275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590977974257884313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec834d87ad743841b156f036cd000fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ViewMesh
+  _playerMovementModel: {fileID: 1048427848720139821}
+  _mesh: {fileID: 2968564069178726609}
 --- !u!1 &7715820133326335501
 GameObject:
   m_ObjectHideFlags: 0
