@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
@@ -32,7 +33,7 @@ public class PlayerMovementController : MonoBehaviour
     private float _rotateY;
 
     private float _currentJumpMomentum;
-    private bool _isJumping;
+    public ReactiveProperty<bool> IsJumping { get; } = new();
     private bool IsGrounded
     {
         get
@@ -114,16 +115,16 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (IsGrounded)
         {
-            _isJumping = true;
+            IsJumping.Value = true;
             _currentJumpMomentum = jumpInitialMomentum;
             await UniTask.WaitForSeconds(0.5f);
-            _isJumping = false;
+            IsJumping.Value = false;
         }
     }
 
     private void ApplyGravity()
     {
-        if (!_isJumping && IsGrounded)
+        if (!IsJumping.Value && IsGrounded)
         {
             _currentJumpMomentum = 0;
             return;

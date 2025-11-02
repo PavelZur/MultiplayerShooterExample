@@ -8,7 +8,7 @@ public class PlayerDataReceiver : MonoBehaviour
     [SerializeField] private PlayerMovementModel _playerMovementModel;
     [SerializeField] private Health _health;
 
-    public Action Die; 
+    public Action <bool>Die; 
     public void InitDataReceiver(Player player)
     {
         player.healthData.OnChange += OnChangeHealthOnServer;
@@ -36,7 +36,7 @@ public class PlayerDataReceiver : MonoBehaviour
                     }
                     
                     _playerMovementModel.IsDieState.Value = isDieState;
-                    Die?.Invoke();                    
+                    Die?.Invoke(isDieState);                    
                     break;
                 default:
                     break;
