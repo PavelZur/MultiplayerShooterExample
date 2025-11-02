@@ -25,7 +25,7 @@ public class PlayerSoundController : MonoBehaviour
             _shootingController.OnShootEvent += OneShootWeapon;
         }
 
-        _playerDataReceiver.Die += PlayDie;
+        _playerDataReceiver.PlayerDieEvent += PlayDie;
 
         _playerMovementModel.PlayerVelosity.Subscribe(velosity => PlaySteps(velosity.sqrMagnitude > 0.2 && _playerMovementModel.IsGrounded.Value)).AddTo(this);
         _playerMovementController.IsJumping.Where(isJump => isJump).Subscribe(isJump => PlayJump()).AddTo(this);
@@ -83,6 +83,6 @@ public class PlayerSoundController : MonoBehaviour
         //    _enemyShootingController.OnShootViewEvent -= OneShootWeapon;
         //}
 
-        _playerDataReceiver.Die -= PlayDie;
+        _playerDataReceiver.PlayerDieEvent -= PlayDie;
     }
 }
