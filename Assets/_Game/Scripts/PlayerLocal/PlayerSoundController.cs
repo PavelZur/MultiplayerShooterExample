@@ -24,10 +24,6 @@ public class PlayerSoundController : MonoBehaviour
         {
             _shootingController.OnShootEvent += OneShootWeapon;
         }
-        //if (_enemyShootingController != null)
-        //{
-        //    _enemyShootingController.OnShootViewEvent += OneShootWeapon;
-        //}
 
         _playerDataReceiver.Die += PlayDie;
 
@@ -37,6 +33,7 @@ public class PlayerSoundController : MonoBehaviour
 
     private void OneShootWeapon(Vector3 any)
     {
+        Debug.Log("shoot");
         _playerShootAudioSource.PlayOneShot(_shootClip);
     }
 
