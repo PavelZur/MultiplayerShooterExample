@@ -11,7 +11,7 @@ public class EnemyDataReceiver : MonoBehaviour
     [SerializeField] private Health _health;
     public Action<ShootingInfo> Shoot;
     public Action ReloadWeapon;
-    public Action Die;
+    public Action<bool> Die;
     private string _sessionId;
 
     public void InitDataReceiver(Player player ,string sessionId)
@@ -34,7 +34,7 @@ public class EnemyDataReceiver : MonoBehaviour
             {
                 case "die":
                     _movementModel.IsDieState.Value = (bool)dataChanges.Value;
-                    Die?.Invoke();
+                    Die?.Invoke(_movementModel.IsDieState.Value);
                     break;
                 default:
                     break;
