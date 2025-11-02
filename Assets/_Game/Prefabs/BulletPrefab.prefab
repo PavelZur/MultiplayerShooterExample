@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 589622427300667057}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5.14}
+  m_LocalPosition: {x: 0.816, y: 0, z: 4.848}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -104,7 +104,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.27718717
+        value: 0.14109403
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -112,14 +112,14 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.53427875
-        value: 0.19104901
-        inSlope: -0.2731635
-        outSlope: -0.2731635
+        time: 0.55423725
+        value: 0.118020445
+        inSlope: 0.034302574
+        outSlope: 0.034302574
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.20544581
       - serializedVersion: 3
         time: 1
         value: 0.13195218
