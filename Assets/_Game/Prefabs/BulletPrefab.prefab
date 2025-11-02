@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 589622427300667057}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.47}
+  m_LocalPosition: {x: 0, y: 0, z: 5.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -104,7 +104,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.20071012
+        value: 0.27718717
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -112,8 +112,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.52657306
-        value: 0.07340374
+        time: 0.53427875
+        value: 0.19104901
         inSlope: -0.2731635
         outSlope: -0.2731635
         tangentMode: 0
@@ -134,26 +134,26 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.39540973, b: 0, a: 1}
+      key0: {r: 1, g: 0.39540973, b: 0, a: 0.5137255}
       key1: {r: 1, g: 0.94580996, b: 0.20784312, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0.9916491}
-      key3: {r: 0, g: 0, b: 0, a: 0.5137255}
+      key2: {r: 1, g: 1, b: 1, a: 1}
+      key3: {r: 0, g: 0, b: 0, a: 0.12941177}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 13743
+      ctime0: 17655
+      ctime1: 37609
       ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
-      atime1: 31349
-      atime2: 39957
-      atime3: 65535
+      atime0: 8559
+      atime1: 18438
+      atime2: 54727
+      atime3: 64312
       atime4: 0
       atime5: 0
       atime6: 0
@@ -202,7 +202,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.056390114, y: 0.064912915, z: 0.056390114}
+  m_LocalScale: {x: 0.02, y: 0.1, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4559024796682249864}
