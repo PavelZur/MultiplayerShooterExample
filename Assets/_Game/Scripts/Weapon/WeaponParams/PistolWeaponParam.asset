@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a7df508c1a21245b79dd5d7142e46a, type: 3}
   m_Name: PistolWeaponParam
   m_EditorClassIdentifier: Assembly-CSharp::WeaponParam
-  <PrefabBullet>k__BackingField: {fileID: 3883296779815173590, guid: 59a974148c225fe429ae0c4e199d4998, type: 3}
+  <BulletPoolObj>k__BackingField: {fileID: 4109008542361061052, guid: db0679d36e676294ca9a02d1a04d14de, type: 3}
   <Damage>k__BackingField: 10
   <MaxAmmo>k__BackingField: 100
   <SizeForCartridges>k__BackingField: 12
   <TimeToReloading>k__BackingField: 1
   <Range>k__BackingField: 0
   <BulletSpeed>k__BackingField: 170
+  <PeriodShooting>k__BackingField: 0
+  <IsAutomatic>k__BackingField: 0

@@ -76,11 +76,10 @@ public class ShootingController : MonoBehaviour
 
     private async UniTaskVoid OneShoot()
     {
-        Bullet newBullet = Instantiate(
-            _weaponController.CurrentActiveWeapon.WeaponParametrs.PrefabBullet, 
-            _weaponController.CurrentActiveWeapon.BulletStartTranform.position,
-            _weaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
+        Bullet newBullet = _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.GetBullet();
 
+        newBullet.transform.SetPositionAndRotation(_weaponController.CurrentActiveWeapon.BulletStartTranform.position,
+            _weaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
 
         Ray ray = new(_weaponController.CurrentActiveWeapon.BulletStartTranform.position,
             _weaponController.CurrentActiveWeapon.BulletStartTranform.forward);
@@ -96,7 +95,8 @@ public class ShootingController : MonoBehaviour
         }
 
         OnShootEvent?.Invoke(bulletTarget);
-       
+
+        newBullet.gameObject.SetActive(true);
         await newBullet.BulletFlight(_weaponController.CurrentActiveWeapon.BulletStartTranform.position, bulletTarget,
             _weaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed);
 
@@ -104,6 +104,8 @@ public class ShootingController : MonoBehaviour
         {
             OnApplyEnemyDamageEvent?.Invoke(health.SessionID, _weaponController.CurrentActiveWeapon.WeaponParametrs.Damage);
         }
+
+        await UniTask.Delay(1000); _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.ReturnBullet(newBullet);
     }
 }
 

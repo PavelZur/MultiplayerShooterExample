@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponParam", menuName = "Parameters/WeaponParam", order = 1)]
 public class WeaponParam : ScriptableObject
 {
-    [field: SerializeField] public Bullet PrefabBullet { get; private set; }
+    [field: SerializeField] public BulletPool BulletPoolObj { get; private set; } 
     [field: SerializeField] public int Damage { get; private set; } = 10;
     [field: SerializeField] public int MaxAmmo { get; private set; } = 30;
     [field: SerializeField] public int SizeForCartridges { get; private set; } = 12;

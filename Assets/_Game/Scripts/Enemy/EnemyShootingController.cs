@@ -18,9 +18,11 @@ public class EnemyShootingController : MonoBehaviour
         Vector3 start = _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.position;
         Vector3 target = new(info.tarX, info.tarY, info.tarZ);
 
-        Bullet newBullet = Instantiate(_enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.PrefabBullet,
-            start, _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
+        Bullet newBullet = _enemyWeaponController.CurrentActiveWeapon.BulletPoolPrefabs.GetBullet();
 
+        newBullet.transform.SetPositionAndRotation(start, _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
+
+        newBullet.gameObject.SetActive(true);
         newBullet.BulletFlight(start, target, _enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed).Forget();
         OnShootViewEvent?.Invoke();
     }

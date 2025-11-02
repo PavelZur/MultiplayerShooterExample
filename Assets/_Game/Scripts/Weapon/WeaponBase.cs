@@ -17,8 +17,12 @@ public abstract class WeaponBase : MonoBehaviour
     public Action<int, int> AmmoUpdateCountEvent;
     public Action ReloadGun;
 
+    public BulletPool BulletPoolPrefabs { get; private set; }
+
     protected virtual void Start()
     {
+        BulletPoolPrefabs = Instantiate(WeaponParametrs.BulletPoolObj,transform);
+
         CurrentAmmo = WeaponParametrs.MaxAmmo;
         CurrentAmmoInCartridg = WeaponParametrs.SizeForCartridges;
         CurrentAmmo -= CurrentAmmoInCartridg;
