@@ -57,4 +57,12 @@ public class LeaderBoard : MonoBehaviour
             _cardsScore.Remove(player.scoreData.name);
         }
     }
+
+    private void OnDestroy()
+    {
+        _cardsScore.Clear();
+        MultiplayerManager.Instance.OnCreatePlayerLocal -= AddPlayerLocalCardInLeaderBoard;
+        MultiplayerManager.Instance.OnCreateEnemy -= AddCardInLeaderBoard;
+        MultiplayerManager.Instance.OnRemoveEnemy -= RemoveCardOutLeaderBoard;
+    }
 }
