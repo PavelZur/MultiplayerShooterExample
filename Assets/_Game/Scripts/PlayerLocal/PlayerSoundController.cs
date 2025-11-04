@@ -33,7 +33,7 @@ public class PlayerSoundController : MonoBehaviour
 
     private void OneShootWeapon(Vector3 any)
     {
-        Debug.Log("shoot");
+       // Debug.Log("shoot");
         _playerShootAudioSource.PlayOneShot(_shootClip);
     }
 

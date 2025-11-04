@@ -3016,6 +3016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8b0bb5229f03047bdd0c17434637de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
+  _playerMovementModel: {fileID: 1048427848720139821}
   _weaponModel: {fileID: 1439797737513235516}
   _weaponViewUI: {fileID: 3180538674069066452}
   _weaponTypePairs:

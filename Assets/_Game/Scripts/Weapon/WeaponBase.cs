@@ -22,12 +22,17 @@ public abstract class WeaponBase : MonoBehaviour
     protected virtual void Start()
     {
         BulletPoolPrefabs = Instantiate(WeaponParametrs.BulletPoolObj,transform);
+        ResetAmmo();
+    }
 
+    public void ResetAmmo()
+    {
         CurrentAmmo = WeaponParametrs.MaxAmmo;
         CurrentAmmoInCartridg = WeaponParametrs.SizeForCartridges;
         CurrentAmmo -= CurrentAmmoInCartridg;
         AmmoUpdateCountEvent?.Invoke(CurrentAmmoInCartridg, CurrentAmmo);
     }
+
 
     public virtual bool TryAmmo()
     {

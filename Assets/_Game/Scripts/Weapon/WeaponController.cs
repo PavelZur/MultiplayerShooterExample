@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System;
+using UniRx;
 
 public class WeaponController : MonoBehaviour
 {
+    [SerializeField] private PlayerMovementModel _playerMovementModel;
     [SerializeField] private PlayerWeaponModel _weaponModel;
     [SerializeField] private WeaponViewUI _weaponViewUI;
     [SerializeField] private List<WeaponTypePair> _weaponTypePairs = new();
@@ -34,6 +36,13 @@ public class WeaponController : MonoBehaviour
         {
             _weaponViewUI.Create(item.Key, ChangeActiveWeapon);
         }
+
+        _playerMovementModel.IsDieState.Where(_ => _).Subscribe(_=> {
+            foreach (var item in AllWeaponsOfType)
+            {
+                item.Value.ResetAmmo();
+            }
+        } ).AddTo(this);
 
         IsInit = true;
     }
