@@ -61,13 +61,13 @@ public abstract class WeaponBase : MonoBehaviour
         return true;
     }
     
-    protected async virtual UniTaskVoid Reload()
+    public async virtual UniTaskVoid Reload()
     {
-        if (IsReloadingProcces || CurrentAmmo <= 0) return;
+        if (IsReloadingProcces || CurrentAmmo <= 0 || WeaponParametrs.SizeForCartridges == CurrentAmmoInCartridg) return;
 
         ReloadGun?.Invoke();
         IsReloadingProcces = true;
-        int sizeForCartridges = WeaponParametrs.SizeForCartridges;
+        int sizeForCartridges =  WeaponParametrs.SizeForCartridges;
         int neededAmmo = sizeForCartridges - CurrentAmmoInCartridg;
 
         await UniTask.WaitForSeconds(WeaponParametrs.TimeToReloading);

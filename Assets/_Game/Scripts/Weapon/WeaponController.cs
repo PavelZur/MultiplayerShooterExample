@@ -22,9 +22,6 @@ public class WeaponController : MonoBehaviour
 
         CreateWeaponDictionaty();
 
-        //CurrentActiveWeapon = AllWeaponsOfType[TypeWeapon.Pistol];
-        //_weaponModel.CurrentActiveWeapon.Value = CurrentActiveWeapon.TypeWeapon;
-
         foreach (var weapon in AllWeaponsOfType)
         {
             weapon.Value.ReloadGun += () =>
@@ -39,6 +36,19 @@ public class WeaponController : MonoBehaviour
         }
 
         IsInit = true;
+    }
+
+    private void Update()
+    {
+        if (!IsInit) return;
+
+        if (InputController.Instance.ReloadWeaponKeyPressed)
+        {
+            if (CurrentActiveWeapon!= null)
+            {
+                CurrentActiveWeapon.Reload().Forget();
+            }
+        }
     }
 
     public void ChangeActiveWeapon(TypeWeapon typeWeapon)

@@ -18,6 +18,8 @@ public class InputController : MonoBehaviour
     public bool MouseLeftButtonPressed => IsCursorUnlocked ? false : Input.GetMouseButton(0);
     public bool MouseLeftButtonUp => IsCursorUnlocked ? false : Input.GetMouseButtonUp(0);
 
+    public bool ReloadWeaponKeyPressed => IsCursorUnlocked ? false : Input.GetKeyDown(KeyCode.R);
+
 
     private void Awake()
     {
