@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LeaderBoard : MonoBehaviour
 {
-    [SerializeField] private LeaderBoardCart _cartPrefab;
+    [SerializeField] private LeaderBoardCart _cartPrefabEnemy;
+    [SerializeField] private LeaderBoardCart _cartPrefabPlayerLocal;
     [SerializeField] private Transform _transformContent;
     [SerializeField] private GameObject _panelLeaderBoard;
 
@@ -30,7 +31,7 @@ public class LeaderBoard : MonoBehaviour
 
     private void AddPlayerLocalCardInLeaderBoard(Player player)
     {
-        LeaderBoardCart newScoreCard = Instantiate(_cartPrefab,_transformContent);
+        LeaderBoardCart newScoreCard = Instantiate(_cartPrefabPlayerLocal, _transformContent);
         string name = player.scoreData.name;
 
         _cardsScore.Add(name, newScoreCard);
@@ -40,7 +41,7 @@ public class LeaderBoard : MonoBehaviour
 
     private void AddCardInLeaderBoard(Player player, string sessionId)
     {
-        LeaderBoardCart newScoreCard = Instantiate(_cartPrefab, _transformContent);
+        LeaderBoardCart newScoreCard = Instantiate(_cartPrefabEnemy, _transformContent);
         string name = player.scoreData.name;
 
         _cardsScore.Add(name, newScoreCard);

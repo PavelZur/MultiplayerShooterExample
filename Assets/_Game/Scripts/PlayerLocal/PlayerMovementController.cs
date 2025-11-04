@@ -20,6 +20,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float jumpInitialMomentum = 8f;
     [SerializeField] private float momentumFalloffRate = 20f;
 
+    [SerializeField] private MouseSensitivityController _mouseSensitivityController;
     [SerializeField] private LayerMask _groundMask;
 
     private float _cerrentHandRotateX;
@@ -46,6 +47,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         _inputController = InputController.Instance;
         _cerrentHandRotateX = 0;
+
+        _mouseSensitivityController.MouseSensitivity.Subscribe(sensitivity =>  _mouseSensitivity = sensitivity).AddTo(this);
     }
 
     private void Update()
