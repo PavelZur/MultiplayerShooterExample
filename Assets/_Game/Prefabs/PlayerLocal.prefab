@@ -4880,7 +4880,7 @@ GameObject:
   - component: {fileID: 6543998577422588876}
   - component: {fileID: 9139649304026834967}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Slider(MouseSensitivity)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4974,7 +4974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MouseSensitivityController
   sensitivitySlider: {fileID: 6543998577422588876}
   MouseSensitivity:
-    value: 10
+    value: 3
 --- !u!1 &8338505714113148934
 GameObject:
   m_ObjectHideFlags: 0

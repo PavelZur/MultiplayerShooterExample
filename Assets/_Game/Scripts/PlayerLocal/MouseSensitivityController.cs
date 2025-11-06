@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MouseSensitivityController : MonoBehaviour
 {
     public Slider sensitivitySlider;
-    public ReactiveProperty<float> MouseSensitivity = new(10f);  
+    public ReactiveProperty<float> MouseSensitivity = new(3f);  
     void Start()
     {
         sensitivitySlider.minValue = 1f;

@@ -86,7 +86,7 @@ public class ShootingController : MonoBehaviour
 
         Vector3 bulletTarget = _weaponController.CurrentActiveWeapon.BulletStartTranform.position + (ray.direction * 100f);
 
-        Health health = null;
+        LimbDamageCorrection health = null;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100, _layerMask))
         {
@@ -102,7 +102,7 @@ public class ShootingController : MonoBehaviour
 
         if (health != null)
         {
-            OnApplyEnemyDamageEvent?.Invoke(health.SessionID, _weaponController.CurrentActiveWeapon.WeaponParametrs.Damage);
+            OnApplyEnemyDamageEvent?.Invoke(health.SessionId, (int)(_weaponController.CurrentActiveWeapon.WeaponParametrs.Damage * health.MultipleFactorDamage));
         }
 
         await UniTask.Delay(1000); _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.ReturnBullet(newBullet);
