@@ -17,7 +17,9 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     public Action<ShootingInfo> OnShootingEnemyEvent;
     public Action<string> OnEnemyGunReloadEvent;
     public Action<string> OnChangeHealthEvent;
-    public Action<string> OnDiePlayerEvent;
+    public Action<string> OnDeathRoomEvent;
+
+
 
     private ColyseusRoom<State> _room;
     private long _pingStartTime;
@@ -57,7 +59,7 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         _room.OnMessage<string>("pong", OnPongReceived);
         _room.OnMessage<string>("Shoot", OnShootingEnemy);
         _room.OnMessage<string>("ReloadWeapon", OnReloadGunEnemy);
-        _room.OnMessage<string>("Die", OnDiePlayer);
+        _room.OnMessage<string>("DE", OnDeathRoom);
 
         _room.OnStateChange += OnChangeRoomHandler;
         _room.OnError += OnErrorRoomHandler;
@@ -142,9 +144,9 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         OnEnemyGunReloadEvent?.Invoke(sessionId);
     }
 
-    private void OnDiePlayer(string sessionId)
+    private void OnDeathRoom(string json)
     {
-        OnDiePlayerEvent?.Invoke(sessionId);
+        OnDeathRoomEvent?.Invoke(json);
     }
 
     protected override void OnDestroy()

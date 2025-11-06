@@ -9,7 +9,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] protected LayerMask _layerMask;
 
     public Action<Vector3> OnShootEvent;
-    public Action<string,int> OnApplyEnemyDamageEvent;
+    public Action<string,int,bool> OnApplyEnemyDamageEvent;
 
     private CancellationTokenSource _shootingCancellationTokenSource;
 
@@ -102,7 +102,9 @@ public class ShootingController : MonoBehaviour
 
         if (health != null)
         {
-            OnApplyEnemyDamageEvent?.Invoke(health.SessionId, (int)(_weaponController.CurrentActiveWeapon.WeaponParametrs.Damage * health.MultipleFactorDamage));
+            OnApplyEnemyDamageEvent?.Invoke(health.SessionId,
+                (int)(_weaponController.CurrentActiveWeapon.WeaponParametrs.Damage * health.MultipleFactorDamage),
+                health.IsHead);
         }
 
         await UniTask.Delay(1000); _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.ReturnBullet(newBullet);

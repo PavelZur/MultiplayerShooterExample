@@ -145,20 +145,21 @@ public class PlayerDataSync : MonoBehaviour
         MultiplayerManager.Instance.SendMessageColyseus(KEY_SHOOT, data);
     }
 
-    private void SendApplyDamageEnemy(string enemySessionId, int damage)
+    private void SendApplyDamageEnemy(string enemySessionId, int damage,bool isHead)
     {
         _damageData["id"] = enemySessionId;
         _damageData["damage"] = damage;
+        _damageData["isHead"] = isHead;
 
         MultiplayerManager.Instance.SendMessageColyseus(KEY_APPLY_DAMAGE, _damageData);
     }
 
-    private void SendDieState(bool isDie)
-    {
-        _dieData["id"] = MultiplayerManager.Instance.PlayerID;
-        _dieData["die"] = isDie;
-        MultiplayerManager.Instance.SendMessageColyseus(KEY_DIE, _dieData);
-    }
+    //private void SendDieState(bool isDie)
+    //{
+    //    _dieData["id"] = MultiplayerManager.Instance.PlayerID;
+    //    _dieData["die"] = isDie;
+    //    MultiplayerManager.Instance.SendMessageColyseus(KEY_DIE, _dieData);
+    //}
 
     private void SendPlayerRestart()
     {
