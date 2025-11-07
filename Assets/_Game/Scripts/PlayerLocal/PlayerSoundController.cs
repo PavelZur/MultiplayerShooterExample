@@ -3,8 +3,6 @@ using UniRx;
 
 public class PlayerSoundController : MonoBehaviour
 {
-    // [SerializeField] private EnemyShootingController _enemyShootingController;
-
     [SerializeField] private PlayerDataReceiver _playerDataReceiver;
     [SerializeField] private ShootingController _shootingController;
     [SerializeField] private PlayerMovementModel _playerMovementModel;
@@ -31,16 +29,10 @@ public class PlayerSoundController : MonoBehaviour
         _playerMovementController.IsJumping.Where(isJump => isJump).Subscribe(isJump => PlayJump()).AddTo(this);
     }
 
-    private void OneShootWeapon(Vector3 any)
+    private void OneShootWeapon()
     {
-       // Debug.Log("shoot");
         _playerShootAudioSource.PlayOneShot(_shootClip);
     }
-
-    //private void OneShootWeapon()
-    //{
-    //    _playerShootAudioSource.PlayOneShot(_shootClip);
-    //}
 
     private void PlayDie(bool value)
     {
@@ -78,10 +70,6 @@ public class PlayerSoundController : MonoBehaviour
         {
             _shootingController.OnShootEvent -= OneShootWeapon;
         }
-        //if (_enemyShootingController != null)
-        //{
-        //    _enemyShootingController.OnShootViewEvent -= OneShootWeapon;
-        //}
 
         _playerDataReceiver.PlayerDieEvent -= PlayDie;
     }

@@ -79,7 +79,7 @@ public class PlayerDataSync : MonoBehaviour
 
         _diePanelView.OnButtonRestartPressedEvent += SendPlayerRestart;
         _weaponController.OnReloadGunEvent += SendReloadWeapon;
-        _shootingController.OnShootEvent += SendBulletInfo;
+        _shootingController.OnShootEventOnSync += SendBulletInfo;
         _shootingController.OnApplyEnemyDamageEvent += SendApplyDamageEnemy;
     }
 
@@ -130,7 +130,7 @@ public class PlayerDataSync : MonoBehaviour
         MultiplayerManager.Instance.SendMessageColyseus(KEY_RELOAD_WEAPON, MultiplayerManager.Instance.PlayerID);
     }
 
-    private void SendBulletInfo(Vector3 bulletTarget)
+    private void SendBulletInfo(Vector3 bulletTarget, Vector3 normal, byte typeDecal)
     {
         ShootingInfo info = new()
         {
@@ -139,6 +139,12 @@ public class PlayerDataSync : MonoBehaviour
             tarX = bulletTarget.x,
             tarY = bulletTarget.y,
             tarZ = bulletTarget.z,
+
+            norX = normal.x,
+            norY = normal.y,
+            norZ = normal.z,
+
+            type = typeDecal
         };
 
         string data = JsonUtility.ToJson(info);
@@ -183,7 +189,7 @@ public class PlayerDataSync : MonoBehaviour
     private void OnDestroy()
     {
         _weaponController.OnReloadGunEvent -= SendReloadWeapon;
-        _shootingController.OnShootEvent -= SendBulletInfo;
+        _shootingController.OnShootEventOnSync -= SendBulletInfo;
         _shootingController.OnApplyEnemyDamageEvent -= SendApplyDamageEnemy;
     }
 }

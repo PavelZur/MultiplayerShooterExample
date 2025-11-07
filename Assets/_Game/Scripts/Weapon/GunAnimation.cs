@@ -33,11 +33,6 @@ public class GunAnimation : MonoBehaviour
         }      
     }
 
-    public void PlayShootAnim(Vector3 any = default)
-    {
-        _animator.Play(NAME_SHOOT_ANIM);
-    }
-
     public void PlayShootAnim()
     {
         _animator.Play(NAME_SHOOT_ANIM);

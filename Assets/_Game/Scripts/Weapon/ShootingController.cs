@@ -8,7 +8,8 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private WeaponController _weaponController;
     [SerializeField] protected LayerMask _layerMask;
 
-    public Action<Vector3> OnShootEvent;
+    public Action<Vector3,Vector3,byte> OnShootEventOnSync;
+    public Action OnShootEvent;
     public Action<string, int, bool> OnApplyEnemyDamageEvent;
 
     private CancellationTokenSource _shootingCancellationTokenSource;
@@ -110,7 +111,8 @@ public class ShootingController : MonoBehaviour
             };
         }
 
-        OnShootEvent?.Invoke(bulletTarget);
+        OnShootEventOnSync?.Invoke(bulletTarget,normal, (byte)_decalBulletType);
+        OnShootEvent?.Invoke();
 
         newBullet.gameObject.SetActive(true);
         await newBullet.BulletFlight(_weaponController.CurrentActiveWeapon.BulletStartTranform.position, bulletTarget,
@@ -122,8 +124,6 @@ public class ShootingController : MonoBehaviour
                 (int)(_weaponController.CurrentActiveWeapon.WeaponParametrs.Damage * health.MultipleFactorDamage),
                 health.IsHead);
         }
-
-
 
         await UniTask.Delay(1000); _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.ReturnBullet(newBullet);
     }
