@@ -23,7 +23,7 @@ public class EnemyShootingController : MonoBehaviour
         newBullet.transform.SetPositionAndRotation(start, _enemyWeaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
 
         newBullet.gameObject.SetActive(true);
-        newBullet.BulletFlight(start, target, _enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed).Forget();
+        newBullet.BulletFlight(start, target, _enemyWeaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed, DecalBulletType.None,Vector3.zero).Forget();
         OnShootViewEvent?.Invoke();
     }
 

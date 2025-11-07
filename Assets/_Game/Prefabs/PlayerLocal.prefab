@@ -2955,7 +2955,7 @@ MonoBehaviour:
   _weaponController: {fileID: 131921392270622784}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 321
+    m_Bits: 16193
 --- !u!114 &6149315295722886414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4299,7 +4299,7 @@ MonoBehaviour:
   _mouseSensitivityController: {fileID: 9139649304026834967}
   _groundMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 16128
 --- !u!114 &1048427848720139821
 MonoBehaviour:
   m_ObjectHideFlags: 0

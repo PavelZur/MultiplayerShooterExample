@@ -9,7 +9,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] protected LayerMask _layerMask;
 
     public Action<Vector3> OnShootEvent;
-    public Action<string,int,bool> OnApplyEnemyDamageEvent;
+    public Action<string, int, bool> OnApplyEnemyDamageEvent;
 
     private CancellationTokenSource _shootingCancellationTokenSource;
 
@@ -17,7 +17,7 @@ public class ShootingController : MonoBehaviour
     {
         if (InputController.Instance.MouseLeftButtonDown)
         {
-            if (_weaponController.IsChangeWeaponProccess ) return;
+            if (_weaponController.IsChangeWeaponProccess) return;
 
             if (_weaponController.CurrentActiveWeapon.WeaponParametrs.IsAutomatic)
             {
@@ -29,7 +29,7 @@ public class ShootingController : MonoBehaviour
                 if (_weaponController.CurrentActiveWeapon.TryAmmo())
                 {
                     OneShoot().Forget();
-                }            
+                }
             }
         }
 
@@ -87,18 +87,34 @@ public class ShootingController : MonoBehaviour
         Vector3 bulletTarget = _weaponController.CurrentActiveWeapon.BulletStartTranform.position + (ray.direction * 100f);
 
         LimbDamageCorrection health = null;
+        DecalBulletType _decalBulletType = DecalBulletType.None;
+        Vector3 normal = Vector3.zero;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100, _layerMask))
         {
             hit.collider.TryGetComponent(out health);
             bulletTarget = hit.point;
+
+            int hitLayer = hit.collider.gameObject.layer; // Получаем слой объекта
+            normal = hit.normal;
+
+            _decalBulletType = hitLayer switch
+            {
+                6 => DecalBulletType.Blood,
+                9 => DecalBulletType.Stone,
+                10 => DecalBulletType.Metall,
+                11 => DecalBulletType.Wood,
+                12 => DecalBulletType.Glass,
+                13 => DecalBulletType.Grass,
+                _ => DecalBulletType.None,
+            };
         }
 
         OnShootEvent?.Invoke(bulletTarget);
 
         newBullet.gameObject.SetActive(true);
         await newBullet.BulletFlight(_weaponController.CurrentActiveWeapon.BulletStartTranform.position, bulletTarget,
-            _weaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed);
+            _weaponController.CurrentActiveWeapon.WeaponParametrs.BulletSpeed, _decalBulletType, normal);
 
         if (health != null)
         {
@@ -107,8 +123,21 @@ public class ShootingController : MonoBehaviour
                 health.IsHead);
         }
 
+
+
         await UniTask.Delay(1000); _weaponController.CurrentActiveWeapon.BulletPoolPrefabs.ReturnBullet(newBullet);
     }
+}
+
+public enum DecalBulletType
+{
+    None,
+    Blood,
+    Stone,
+    Metall,
+    Wood,
+    Glass,
+    Grass
 }
 
 
