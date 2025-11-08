@@ -5,10 +5,9 @@ public class DeathEventManager : MonoBehaviour
 {
     [SerializeField] private DeathInfoCartPrefab _cartDeathInfoPrefab;
     [SerializeField] private Transform _transformContent;
-    private AlphaController _alphaController;
+
     void Start()
     {
-        _alphaController = _transformContent.GetComponent<AlphaController>();
         MultiplayerManager.Instance.OnDeathRoomEvent += CreateDeathInfoCart;
     }
 
@@ -18,7 +17,6 @@ public class DeathEventManager : MonoBehaviour
 
         DeathInfoCartPrefab deathInfoCard = Instantiate(_cartDeathInfoPrefab, _transformContent);
         deathInfoCard.Init(info.nameKiller, info.nameDie, info.isHead);
-        _alphaController.AddElement(deathInfoCard.GetComponent<CanvasGroup>());
     }
 
     private void OnDestroy()

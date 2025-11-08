@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fbbe95675f68342a700650491e616d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeathInfoCartPrefab
+  _canvasGroup: {fileID: 5879152396842891240}
   _textKiller: {fileID: 8749892178649706365}
   _textDead: {fileID: 5827319035324942215}
   _headImage: {fileID: 7443843856202963283}
