@@ -13,6 +13,12 @@ public class ShootingController : MonoBehaviour
     public Action<string, int, bool> OnApplyEnemyDamageEvent;
 
     private CancellationTokenSource _shootingCancellationTokenSource;
+    private Transform _cameraTransform;
+
+    private void Start()
+    {
+        _cameraTransform = Camera.main.transform;
+    }
 
     void Update()
     {
@@ -82,10 +88,10 @@ public class ShootingController : MonoBehaviour
         newBullet.transform.SetPositionAndRotation(_weaponController.CurrentActiveWeapon.BulletStartTranform.position,
             _weaponController.CurrentActiveWeapon.BulletStartTranform.rotation);
 
-        Ray ray = new(_weaponController.CurrentActiveWeapon.BulletStartTranform.position,
-            _weaponController.CurrentActiveWeapon.BulletStartTranform.forward);
+        Ray ray = new(_cameraTransform.position,
+            _cameraTransform.forward);
 
-        Vector3 bulletTarget = _weaponController.CurrentActiveWeapon.BulletStartTranform.position + (ray.direction * 100f);
+        Vector3 bulletTarget = _cameraTransform.position + (ray.direction * 100f);
 
         LimbDamageCorrection health = null;
         DecalBulletType _decalBulletType = DecalBulletType.None;
@@ -96,7 +102,7 @@ public class ShootingController : MonoBehaviour
             hit.collider.TryGetComponent(out health);
             bulletTarget = hit.point;
 
-            int hitLayer = hit.collider.gameObject.layer; // Получаем слой объекта
+            int hitLayer = hit.collider.gameObject.layer;
             normal = hit.normal;
 
             _decalBulletType = hitLayer switch

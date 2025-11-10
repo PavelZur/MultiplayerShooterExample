@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -8,6 +9,9 @@ public abstract class WeaponBase : MonoBehaviour
     [field: SerializeField] public Transform BulletStartTranform { get; private set; }
     [field: SerializeField] public WeaponParam WeaponParametrs { get; private set; }
     [field: SerializeField] public TypeWeapon TypeWeapon { get; private set; }
+    [field: SerializeField] public List<WeaponAim> AimsList { get; private set; } = new();
+    [field: SerializeField] public WeaponAim ActivAim { get; private set; } = new();
+    [field: SerializeField] public Transform RootMeshTransform { get; private set; }
 
     protected int CurrentAmmo;
     protected int CurrentAmmoInCartridg;

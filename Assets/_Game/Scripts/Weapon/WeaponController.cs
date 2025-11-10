@@ -12,6 +12,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private List<WeaponTypePair> _weaponTypePairs = new();
     public Dictionary<TypeWeapon, WeaponBase> AllWeaponsOfType { get; private set; } = new();
     [field: SerializeField] public WeaponBase CurrentActiveWeapon { get; private set; }
+   
 
     public Action OnReloadGunEvent;
     public Action OnChangeWeaponEvent;
